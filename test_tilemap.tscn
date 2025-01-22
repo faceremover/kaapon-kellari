@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=4 uid="uid://cng30edglssbd"]
 
 [ext_resource type="TileSet" uid="uid://bs5feohkqoqhb" path="res://Schimbo/graphite_godot4.tres" id="1_r4614"]
-[ext_resource type="Script" uid="uid://x8cbc03mok0p" path="res://cameraadaption.gd" id="2_y8swa"]
+
+[sub_resource type="GDScript" id="GDScript_r4614"]
 
 [node name="Node2D" type="Node2D"]
 texture_filter = 1
@@ -13,4 +14,4 @@ tile_set = ExtResource("1_r4614")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(72, 116)
 zoom = Vector2(2, 2)
-script = ExtResource("2_y8swa")
+script = SubResource("GDScript_r4614")
