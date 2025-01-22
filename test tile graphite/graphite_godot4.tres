@@ -1,10 +1,10 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bs5feohkqoqhb"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bgmvrv6yyfnjb"]
 
-[ext_resource type="Texture2D" uid="uid://dia08tyrj6bjh" path="res://Schimbo/graphite.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://df61w3r2qa5tg" path="res://test tile graphite/graphite.png" id="1_tbxe3"]
 
 [sub_resource type="TileSetAtlasSource" id="2"]
 resource_name = "Auto1"
-texture = ExtResource("1")
+texture = ExtResource("1_tbxe3")
 separation = Vector2i(1, 1)
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0

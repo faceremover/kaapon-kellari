@@ -1,2 +1,5 @@
-# kaapon-kellari
- Kaapon Kellari on Bittileiriä varten kehitetty arcade-peli
+# Kaapon Kellari
+peli 2025 Hiihtoloman Bittileirille
+
+by Eero Heikkilä
+[faceremover.net](https://faceremover.net/)
