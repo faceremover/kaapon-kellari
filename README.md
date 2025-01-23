@@ -21,5 +21,4 @@ Kellarista lähdettyään pelaaja palkitaan pisteillä näiden mukaan:
 
 Color palette: [Sunshine Valley](https://lospec.com/palette-list/sunshine-valley)
 
-by Erbunga "Mäski" Heikkilä 
-[faceremover.net](https://faceremover.net/)
+by Erbunga "Mäski" Heikkilä - [faceremover.net](https://faceremover.net/)

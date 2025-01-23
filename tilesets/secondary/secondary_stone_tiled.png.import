@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://df61w3r2qa5tg"
-path="res://.godot/imported/graphite.png-023bee06caefef134e6e90c925a84fdd.ctex"
+uid="uid://c6r1typywwrth"
+path="res://.godot/imported/secondary_stone_tiled.png-89100053e3030e411c2f25da6f0e8620.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/graphite/graphite.png"
-dest_files=["res://.godot/imported/graphite.png-023bee06caefef134e6e90c925a84fdd.ctex"]
+source_file="res://tilesets/secondary/secondary_stone_tiled.png"
+dest_files=["res://.godot/imported/secondary_stone_tiled.png-89100053e3030e411c2f25da6f0e8620.ctex"]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
-compress/channel_pack=1
+compress/channel_pack=0
 mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
