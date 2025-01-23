@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://df61w3r2qa5tg"
-path="res://.godot/imported/graphite.png-82b009de4caedbdc0ac7e6c37fdc93cc.ctex"
+path="res://.godot/imported/graphite.png-023bee06caefef134e6e90c925a84fdd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://test tile graphite/graphite.png"
-dest_files=["res://.godot/imported/graphite.png-82b009de4caedbdc0ac7e6c37fdc93cc.ctex"]
+source_file="res://tilesets/graphite/graphite.png"
+dest_files=["res://.godot/imported/graphite.png-023bee06caefef134e6e90c925a84fdd.ctex"]
 
 [params]
 
