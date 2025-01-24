@@ -1,0 +1,62 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://brco6i3ou0cjx"]
+
+[ext_resource type="Texture2D" uid="uid://dgftu008vh7rd" path="res://tilesets/gold_items/kaapos_gold_8.png" id="1"]
+
+[sub_resource type="TileSetAtlasSource" id="2"]
+resource_name = "Atlas1"
+texture = ExtResource("1")
+separation = Vector2i(1, 1)
+texture_region_size = Vector2i(10, 10)
+0:0/0 = 0
+0:0/0/z_index = 1
+0:0/0/probability = 0.01
+1:0/0 = 0
+1:0/0/z_index = 1
+1:0/0/probability = 0.01
+2:0/0 = 0
+2:0/0/z_index = 1
+2:0/0/probability = 0.01
+3:0/0 = 0
+3:0/0/z_index = 1
+3:0/0/probability = 0.01
+4:0/0 = 0
+4:0/0/z_index = 1
+4:0/0/probability = 0.01
+5:0/0 = 0
+5:0/0/z_index = 1
+5:0/0/probability = 0.01
+6:0/0 = 0
+6:0/0/z_index = 1
+6:0/0/probability = 0.01
+7:0/0 = 0
+7:0/0/z_index = 1
+7:0/0/probability = 0.01
+8:0/0 = 0
+8:0/0/z_index = 1
+8:0/0/probability = 0.01
+9:0/0 = 0
+9:0/0/z_index = 1
+9:0/0/probability = 0.01
+10:0/0 = 0
+10:0/0/z_index = 1
+10:0/0/probability = 0.01
+11:0/0 = 0
+11:0/0/z_index = 1
+11:0/0/probability = 0.01
+0:1/0 = 0
+0:1/0/z_index = 1
+0:1/0/probability = 0.01
+1:1/0 = 0
+1:1/0/z_index = 1
+1:1/0/probability = 0.01
+2:1/0 = 0
+2:1/0/z_index = 1
+2:1/0/probability = 0.01
+
+[resource]
+tile_size = Vector2i(8, 8)
+physics_layer_0/collision_layer = 1
+terrain_set_0/mode = 2
+terrain_set_0/terrain_0/name = "golds"
+terrain_set_0/terrain_0/color = Color(0.96, 0.78976, 0.2304, 1)
+sources/0 = SubResource("2")
