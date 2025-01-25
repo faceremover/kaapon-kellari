@@ -89,7 +89,7 @@ editor_draw_drag_margin = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D/CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_kadlq")
 animation = &"run"
-frame_progress = 0.53001
+frame_progress = 0.2801
 
 [node name="PointLight2D" type="PointLight2D" parent="Node2D/CharacterBody2D/AnimatedSprite2D"]
 energy = 0.46
