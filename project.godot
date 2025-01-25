@@ -84,6 +84,7 @@ twirl={
 [physics]
 
 2d/run_on_separate_thread=true
+common/physics_interpolation=true
 
 [rendering]
 
@@ -93,5 +94,3 @@ global_illumination/gi/use_half_resolution=true
 textures/default_filters/use_nearest_mipmap_filter=true
 camera/depth_of_field/depth_of_field_bokeh_quality=0
 environment/defaults/default_clear_color=Color(0.0747, 0.063, 0.18, 1)
-anti_aliasing/quality/screen_space_aa=1
-2d/snap/snap_2d_transforms_to_pixel=true
