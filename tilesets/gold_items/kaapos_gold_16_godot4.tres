@@ -1,11 +1,10 @@
-[gd_resource type="TileSet" load_steps=3 format=3]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://d2kdcbyodldhp"]
 
-[ext_resource path="./kaapos_gold_16.png" type="Texture2D" id="1"]
+[ext_resource type="Texture2D" uid="uid://3k76s0f71kvw" path="res://tilesets/gold_items/kaapos_gold_16.png" id="1"]
 
 [sub_resource type="TileSetAtlasSource" id="2"]
 resource_name = "Atlas1"
 texture = ExtResource("1")
-margins = Vector2i(0, 0)
 separation = Vector2i(1, 1)
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
@@ -40,6 +39,5 @@ texture_region_size = Vector2i(18, 18)
 9:0/0/probability = 0.01
 
 [resource]
-tile_size = Vector2i(16, 16)
 terrain_set_0/mode = 0
 sources/0 = SubResource("2")
