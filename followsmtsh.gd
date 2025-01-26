@@ -1,11 +1,10 @@
 extends Node2D
 
-# Target node to follow
 @export var target_path: NodePath
-# Speed of interpolation
 @export var follow_speed: float = 5.0
+@export var follow_speed_x: float = 5.0
+@export var follow_speed_y: float = 5.0
 
-# Internal reference to the target node
 var target: Node2D
 
 func _ready() -> void:
@@ -14,8 +13,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
     if target:
-        # Interpolate position
-        position = position.lerp(target.position, follow_speed * delta)
+        var new_position = position
+        new_position.x = position.x + (target.position.x - position.x) * follow_speed_x * delta
+        new_position.y = position.y + (target.position.y - position.y) * follow_speed_y * delta
         
-        # Interpolate rotation
-        rotation = lerp_angle(rotation, target.rotation, follow_speed * delta)
+        position = new_position

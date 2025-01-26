@@ -102,4 +102,4 @@ global_illumination/gi/use_half_resolution=true
 textures/default_filters/use_nearest_mipmap_filter=true
 camera/depth_of_field/depth_of_field_bokeh_quality=0
 environment/glow/upscale_mode=0
-environment/defaults/default_clear_color=Color(0.046, 0.04, 0.1, 1)
+environment/defaults/default_clear_color=Color(0.03192, 0.0288, 0.06, 1)

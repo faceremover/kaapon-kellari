@@ -1,10 +1,17 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://d2pw0w7ygxeg1"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://d2pw0w7ygxeg1"]
 
 [ext_resource type="Texture2D" uid="uid://c6r1typywwrth" path="res://tilesets/secondary/secondary_stone_tiled.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://b5sdgur33w5yj" path="res://tilesets/secondary/secondary_stone_tiled_normal.png" id="2_2cb5v"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_02ekp"]
+diffuse_texture = ExtResource("1")
+normal_texture = ExtResource("2_2cb5v")
+specular_color = Color(0.0923971, 0.0923971, 0.0923971, 1)
+specular_shininess = 0.48
 
 [sub_resource type="TileSetAtlasSource" id="2"]
 resource_name = "Auto1"
-texture = ExtResource("1")
+texture = SubResource("CanvasTexture_02ekp")
 separation = Vector2i(1, 1)
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
@@ -876,5 +883,5 @@ texture_region_size = Vector2i(18, 18)
 [resource]
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Secondary"
-terrain_set_0/terrain_0/color = Color(0.201, 0.165, 0.3, 1)
+terrain_set_0/terrain_0/color = Color(0.215119, 0.177244, 0.319376, 1)
 sources/0 = SubResource("2")
