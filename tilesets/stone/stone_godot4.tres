@@ -87,7 +87,8 @@ polygon = PackedVector2Array(-5, -5, 4, -5, 4, 4, -5, 4)
 [sub_resource type="CanvasTexture" id="CanvasTexture_tevah"]
 diffuse_texture = ExtResource("1")
 normal_texture = ExtResource("1_lnbh3")
-specular_shininess = 0.27
+specular_color = Color(0.637843, 0.637843, 0.637843, 1)
+specular_shininess = 0.35
 
 [sub_resource type="TileSetAtlasSource" id="2"]
 resource_name = "Auto1"
