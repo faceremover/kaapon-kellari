@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://wttycy6p78ew" path="res://ui/right_pressed.png" id="7_cncmv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q8cc3"]
-radius = 36.95
+radius = 53.12
 
 [node name="CanvasLayer" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -45,7 +45,7 @@ offset_bottom = -2.0
 grow_vertical = 0
 
 [node name="left" type="TouchScreenButton" parent="movememnnem"]
-position = Vector2(9, 1)
+position = Vector2(13, 1)
 texture_normal = ExtResource("1_pseti")
 texture_pressed = ExtResource("4_mq6yj")
 shape = ExtResource("2_to6an")
@@ -54,7 +54,7 @@ action = "left"
 visibility_mode = 1
 
 [node name="right" type="TouchScreenButton" parent="movememnnem"]
-position = Vector2(60, 1)
+position = Vector2(71, 1)
 texture_normal = ExtResource("2_dej13")
 texture_pressed = ExtResource("7_cncmv")
 shape = ExtResource("2_to6an")

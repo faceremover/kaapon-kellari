@@ -15,9 +15,13 @@ run/main_scene="uid://cng30edglssbd"
 run/enable_alt_space_menu=true
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.0855, 0.086575, 0.15, 1)
-boot_splash/image="uid://cu2qxgwfgnhvc"
+boot_splash/image="uid://2xgr3ve4380j"
 boot_splash/use_filter=false
-config/icon="res://icon.svg"
+config/icon="uid://2xgr3ve4380j"
+
+[audio]
+
+general/2d_panning_strength=0.8
 
 [debug]
 
@@ -25,8 +29,8 @@ settings/stdout/print_fps=true
 
 [display]
 
-window/size/viewport_width=340
-window/size/viewport_height=200
+window/size/viewport_width=260
+window/size/viewport_height=175
 window/size/initial_screen=1
 window/size/extend_to_title=true
 window/size/sharp_corners=true
@@ -97,7 +101,9 @@ twirl={
 [physics]
 
 2d/run_on_separate_thread=true
+3d/run_on_separate_thread=true
 common/physics_ticks_per_second=30
+3d/physics_engine="Jolt Physics"
 common/physics_interpolation=true
 
 [rendering]
@@ -107,9 +113,10 @@ renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
 2d/shadow_atlas/size=1024
+reflections/sky_reflections/texture_array_reflections=false
 global_illumination/gi/use_half_resolution=true
-textures/default_filters/use_nearest_mipmap_filter=true
 camera/depth_of_field/depth_of_field_bokeh_quality=0
 anti_aliasing/screen_space_roughness_limiter/enabled=false
 environment/glow/upscale_mode=0
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+2d/snap/snap_2d_transforms_to_pixel=true

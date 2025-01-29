@@ -1,5 +1,15 @@
 extends CharacterBody2D
 
+# Action states enum
+enum ACTION {
+    NONE,
+    IDLE,
+    RUNNING,
+    JUMPING,
+    FALLING,
+    LANDING
+}
+
 @export var move_speed := 1000.0
 @export var jump_force := 500.0
 @export var acceleration := 15.0
@@ -17,6 +27,7 @@ extends CharacterBody2D
 @export var landAudio: AudioStreamPlayer2D
 @export var runAudio: AudioStreamPlayer2D
 @export var land_volume_multiplier := 2.0  # new variable to adjust landing volume
+@export var mid_air_friction := 0.6  # Controls horizontal movement in air (0-1)
 
 var coyote_time_counter := 0.0
 var jump_buffer_counter := 0.0
@@ -42,14 +53,17 @@ func _on_frame_changed() -> void:
         runAudio.play()
 
 func _physics_process(delta: float) -> void:
+    # -- horizontal movement --
     var input_direction = Input.get_axis(input_left, input_right)
     var target_speed = input_direction * move_speed
     
-    # Use different values for acceleration and deceleration
     var friction = acceleration if abs(target_speed) > abs(current_speed) else deceleration
+    if not is_on_floor():
+        friction *= mid_air_friction
     current_speed = lerp(current_speed, target_speed, friction * delta)
     velocity.x = current_speed
     
+    # -- jump preparation --
     var is_on_floor_now = is_on_floor()
     if is_on_floor_now:
         coyote_time_counter = coyote_time
@@ -59,21 +73,25 @@ func _physics_process(delta: float) -> void:
     if Input.is_action_just_pressed(input_jump):
         jump_buffer_counter = jump_buffer_time
 
+    # -- jump execution --
     if (is_on_floor_now or coyote_time_counter > 0) and jump_buffer_counter > 0:
         velocity.y = -jump_force
+        current_speed = lerp(current_speed, target_speed, 18 * delta)
         coyote_time_counter = 0
         jump_buffer_counter = 0
         if jumpAudio:
             jumpAudio.play()
 
+    # -- gravity and movement --
     jump_buffer_counter -= delta
     velocity.y += gravity * delta
     move_and_slide()
 
+    # -- wall collision --
     if is_on_wall() and not is_on_floor_now:
         current_speed = 0
 
-    # -- step step logic --
+    # -- step assistance --
     if is_on_floor_now and input_direction != 0:
         var dir = sign(input_direction)
         if test_move(global_transform, Vector2(dir, 0)):
@@ -84,12 +102,12 @@ func _physics_process(delta: float) -> void:
                     global_position.x += dir
                     break
 
-    # -- snap to pixel when aint movin --
+    # -- pixel snapping --
     if is_on_floor_now and input_direction == 0:
         global_position.x = round(global_position.x)
         global_position.y = round(global_position.y)
 
-    # -- animations --
+    # -- animation selection --
     var new_animation = ""
     if is_on_floor_now and not was_on_floor:
         new_animation = "land"
@@ -109,12 +127,15 @@ func _physics_process(delta: float) -> void:
         new_animation = "idle"
         anim.speed_scale = 1.0
 
+    # -- run sound --
     if runAudio and previous_animation == "run" and new_animation == "idle" and anim.frame == 0:
         runAudio.play()
     
+    # -- animation update --
     previous_animation = new_animation
     anim.play(new_animation)
 
+    # -- sprite flipping --
     if input_direction < 0:
         anim.scale.x = -1
     elif input_direction > 0:
@@ -122,8 +143,7 @@ func _physics_process(delta: float) -> void:
 
     was_on_floor = is_on_floor_now
 
-
-
+    # -- camera follow --
     if camera:
-        var target_position = global_position + Vector2(velocity.x * 0.8, velocity.y * 0.8)
+        var target_position = global_position + Vector2(velocity.x * 0.85, velocity.y * 0.85)
         camera.global_position = lerp(camera.global_position, target_position, 0.06)

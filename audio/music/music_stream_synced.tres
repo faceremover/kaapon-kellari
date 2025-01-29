@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamSynchronized" load_steps=3 format=3 uid="uid://cf6peajuko3b6"]
+
+[ext_resource type="AudioStream" uid="uid://cr5ktl51ay4jq" path="res://audio/music/trap.mp3" id="1_5i8kr"]
+[ext_resource type="AudioStream" uid="uid://dy6cxu7w8oe35" path="res://audio/music/main.mp3" id="1_s6u0n"]
+
+[resource]
+stream_count = 2
+stream_0/stream = ExtResource("1_s6u0n")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("1_5i8kr")
+stream_1/volume = 2.0
