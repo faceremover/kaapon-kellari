@@ -15,6 +15,7 @@ void fragment() {
 		for (int x = 0; x < pal_size.x; x += 1)
 		{
 			vec3 scr_pix = texture(screen_texture, SCREEN_UV).rgb;
+			scr_pix = clamp(scr_pix, 0.0, 1.0);
 			vec3 pal_pix = texelFetch(palette, ivec2(x, y), 0).rgb;
 
 			// Slightly faster than distance()

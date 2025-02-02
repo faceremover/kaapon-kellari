@@ -76,7 +76,7 @@ func _physics_process(delta: float) -> void:
     # -- jump execution --
     if (is_on_floor_now or coyote_time_counter > 0) and jump_buffer_counter > 0:
         velocity.y = -jump_force
-        current_speed = lerp(current_speed, target_speed, 18 * delta)
+        current_speed = lerp(current_speed, target_speed, 15 * delta)
         coyote_time_counter = 0
         jump_buffer_counter = 0
         if jumpAudio:
