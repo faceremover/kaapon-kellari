@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://d231q0kcb0rw8"]
+
+[ext_resource type="PackedScene" uid="uid://cpfqxytdqsrnh" path="res://mobilecontrols.tscn" id="1_b2grt"]
+[ext_resource type="Theme" uid="uid://diy3aemnqtaax" path="res://default_theme.tres" id="2_r5ibi"]
+[ext_resource type="Script" uid="uid://be3p1xtwmal36" path="res://score.gd" id="3_gjitu"]
+[ext_resource type="Script" uid="uid://dswjh7nkwj7cw" path="res://score_effect.gd" id="4_gjitu"]
+
+[sub_resource type="GDScript" id="GDScript_b2grt"]
+script/source = "extends Label
+
+func _ready():
+	# Adjust the node path to where your StartArea node is located.
+	var start_area = get_node(\"/root/test_tilemap/START AREA/Area2D\")
+	start_area.connect(\"time_updated\", Callable(self, \"_on_time_updated\"))
+
+func _on_time_updated(time_text: String) -> void:
+	text = time_text
+"
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="mobilecontrols" parent="." instance=ExtResource("1_b2grt")]
+follow_viewport_enabled = false
+
+[node name="TIMER" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme = ExtResource("2_r5ibi")
+text = "4:20"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = SubResource("GDScript_b2grt")
+
+[node name="SCORE" type="Label" parent="." node_paths=PackedStringArray("effect_label")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -46.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme = ExtResource("2_r5ibi")
+text = "6900"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_gjitu")
+effect_label = NodePath("effect")
+
+[node name="effect" type="Label" parent="SCORE"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -45.0
+offset_top = 20.0
+offset_right = -5.0
+offset_bottom = 42.0
+grow_horizontal = 0
+pivot_offset = Vector2(28, 7)
+horizontal_alignment = 1
+script = ExtResource("4_gjitu")
+
+[node name="ParticleLayer" type="CanvasLayer" parent="."]

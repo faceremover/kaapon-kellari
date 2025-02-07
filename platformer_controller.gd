@@ -1,149 +1,241 @@
 extends CharacterBody2D
 
-# Action states enum
-enum ACTION {
-    NONE,
-    IDLE,
-    RUNNING,
-    JUMPING,
-    FALLING,
-    LANDING
-}
+# Action states enum - used as a reference, helps with code clarity
+enum ACTION { NONE, IDLE, RUNNING, JUMPING, FALLING, LANDING }
 
-@export var move_speed := 1000.0
-@export var jump_force := 500.0
-@export var acceleration := 15.0
-@export var deceleration := 10.0
-@export var gravity := 980.0
+# Export variables with hints for better tuning
+@export_range(0, 2000) var move_speed := 1000.0
+@export_range(0, 500) var jump_height := 150.0  # Maximum jump height in pixels
+@export_range(0, 50) var acceleration := 15.0
+@export_range(0, 50) var deceleration := 10.0
+@export_range(0, 2000) var gravity := 980.0
 @export var input_left := "move_left"
 @export var input_right := "move_right"
 @export var input_jump := "jump"
-@export var step_height := 9
-@export var coyote_time := 0.04
-@export var jump_buffer_time := 0.1
+@export_range(0, 20) var step_height := 9
+@export_range(0, 0.2) var coyote_time := 0.04
+@export_range(0, 0.2) var jump_buffer_time := 0.1
 @export var anim: AnimatedSprite2D
 @export var camera: Node2D
 @export var jumpAudio: AudioStreamPlayer2D
 @export var landAudio: AudioStreamPlayer2D
 @export var runAudio: AudioStreamPlayer2D
-@export var land_volume_multiplier := 2.0  # new variable to adjust landing volume
-@export var mid_air_friction := 0.6  # Controls horizontal movement in air (0-1)
+@export_range(0, 5) var land_volume_multiplier := 2.0
+@export_range(0, 1) var mid_air_friction := 0.6
+@export var wall_bounce_audio: AudioStreamPlayer2D  # Add wall bounce sound
 
+# Momentum settings
+@export_range(0, 1000) var max_momentum_bonus := 400.0  # Maximum additional speed from momentum
+@export_range(0, 5) var momentum_build_time := 1.2      # Time at max speed before momentum builds
+
+# Camera follow settings
+@export_range(0, 1) var camera_smoothing := 0.05
+@export_range(0, 2) var camera_prediction_h := 0.85  # Horizontal prediction
+@export_range(0, 2) var camera_prediction_v := 0.5   # Vertical prediction (usually lower)
+@export_range(0, 300) var max_camera_offset := 160.0 # Max distance camera can move from player
+var smoothed_velocity := Vector2.ZERO
+
+# Cached values for better performance
 var coyote_time_counter := 0.0
 var jump_buffer_counter := 0.0
 var current_speed := 0.0
 var was_on_floor := false
 var is_landing := false
-var previous_animation: String = ""
+var previous_animation := ""
+var cached_transform: Transform2D
+var move_transform: Transform2D
+
+# Add these variables for calculated jump properties
+var jump_velocity: float
+
+# Add to cached values section
+var run_build_timer := 0.0
 
 func _ready() -> void:
-    anim.connect("animation_finished", self._on_animation_finished)
-    if anim:
-        anim.frame_changed.connect(_on_frame_changed)
-
+	if anim:
+		anim.animation_finished.connect(_on_animation_finished)
+		anim.frame_changed.connect(_on_frame_changed)
+	cached_transform = global_transform
+	move_transform = Transform2D()
+	
+	# Calculate jump velocity from height and gravity (v = √(2gh))
+	jump_velocity = sqrt(2.0 * gravity * jump_height)
 
 func _on_animation_finished() -> void:
-    if anim.animation == "land":
-        is_landing = false
-    elif anim.animation == "run" and runAudio:
-        runAudio.play()
+	if anim.animation == "land":
+		is_landing = false
+	elif anim.animation == "run" && runAudio && !runAudio.playing:
+		runAudio.play()
 
 func _on_frame_changed() -> void:
-    if anim.animation == "run" and anim.frame == 1 and runAudio:
-        runAudio.play()
+	if anim.animation == "run" && anim.frame == 1 && runAudio && !runAudio.playing:
+		runAudio.play()
 
 func _physics_process(delta: float) -> void:
-    # -- horizontal movement --
-    var input_direction = Input.get_axis(input_left, input_right)
-    var target_speed = input_direction * move_speed
-    
-    var friction = acceleration if abs(target_speed) > abs(current_speed) else deceleration
-    if not is_on_floor():
-        friction *= mid_air_friction
-    current_speed = lerp(current_speed, target_speed, friction * delta)
-    velocity.x = current_speed
-    
-    # -- jump preparation --
-    var is_on_floor_now = is_on_floor()
-    if is_on_floor_now:
-        coyote_time_counter = coyote_time
-    else:
-        coyote_time_counter -= delta
+	# Update cached_transform to the current global_transform for proper stepping
+	cached_transform = global_transform  
+	var is_on_floor_now := is_on_floor()
+	var input_direction := Input.get_axis(input_left, input_right)
+	
+	_handle_movement(delta, input_direction, is_on_floor_now)
+	_handle_jump(delta, is_on_floor_now)
+	_handle_step_assist(input_direction, is_on_floor_now)
+	_handle_animation(input_direction, is_on_floor_now)
+	_update_camera(delta)  # Pass delta to camera update
+	
+	was_on_floor = is_on_floor_now
+	move_and_slide()
 
-    if Input.is_action_just_pressed(input_jump):
-        jump_buffer_counter = jump_buffer_time
+func _handle_movement(delta: float, input_direction: float, is_on_floor_now: bool) -> void:
+	var speed_sign = sign(current_speed)
+	var input_sign = sign(input_direction)
+	
+	# Reset momentum when changing direction
+	if speed_sign != 0 and input_sign != 0 and speed_sign != input_sign:
+		run_build_timer = 0.0
+		current_speed *= 0.6  # Quick slowdown when turning
+	elif is_on_floor_now and input_direction != 0 and speed_sign == input_sign:
+		run_build_timer += delta
+	else:
+		run_build_timer = 0.0
 
-    # -- jump execution --
-    if (is_on_floor_now or coyote_time_counter > 0) and jump_buffer_counter > 0:
-        velocity.y = -jump_force
-        current_speed = lerp(current_speed, target_speed, 15 * delta)
-        coyote_time_counter = 0
-        jump_buffer_counter = 0
-        if jumpAudio:
-            jumpAudio.play()
+	var ramp = clamp(run_build_timer / momentum_build_time, 0.0, 1.0)
+	var desired_speed = input_direction * (move_speed + max_momentum_bonus * ramp)
 
-    # -- gravity and movement --
-    jump_buffer_counter -= delta
-    velocity.y += gravity * delta
-    move_and_slide()
+	# More aggressive deceleration when changing direction
+	var accel_amount := acceleration
+	if abs(desired_speed) < abs(current_speed) or (speed_sign != 0 and input_sign != 0 and speed_sign != input_sign):
+		accel_amount = deceleration * 1.5  # Increase deceleration when turning
+	if !is_on_floor_now:
+		accel_amount *= mid_air_friction
 
-    # -- wall collision --
-    if is_on_wall() and not is_on_floor_now:
-        current_speed = 0
+	var raw_speed = move_toward(current_speed, desired_speed, accel_amount * move_speed * delta)
+	current_speed = lerp(current_speed, raw_speed, 0.25)
 
-    # -- step assistance --
-    if is_on_floor_now and input_direction != 0:
-        var dir = sign(input_direction)
-        if test_move(global_transform, Vector2(dir, 0)):
-            for i in range(1, step_height + 1):
-                var test_pos = global_transform.translated(Vector2(0, -i))
-                if not test_move(test_pos, Vector2(dir, 0)):
-                    global_position.y -= i
-                    global_position.x += dir
-                    break
+	# Combined collision logic
+	if is_on_wall():
+		for i in range(get_slide_collision_count()):
+			var collision = get_slide_collision(i)
+			var can_step = false
+			for j in range(1, step_height + 1):
+				var step_up := Vector2(0, -j)
+				var step_dir := Vector2(speed_sign, 0)
+				# Try stepping up
+				if !test_move(transform, step_up) and !test_move(transform.translated(step_up), step_dir):
+					can_step = true
+					break
 
-    # -- pixel snapping --
-    if is_on_floor_now and input_direction == 0:
-        global_position.x = round(global_position.x)
-        global_position.y = round(global_position.y)
+			if can_step:
+				desired_speed *= 0.6
+				current_speed *= 0.6
+			else:
+				# Bounce or stop
+				if abs(current_speed) >= move_speed - 5:
+					current_speed *= -0.6
+					desired_speed = current_speed
+					if wall_bounce_audio:
+						wall_bounce_audio.play()
+				else:
+					current_speed = 0.0
+					desired_speed = 0.0
+			break
 
-    # -- animation selection --
-    var new_animation = ""
-    if is_on_floor_now and not was_on_floor:
-        new_animation = "land"
-        anim.speed_scale = 1.0
-        is_landing = true
-        if landAudio:
-            landAudio.play()
-    elif not is_on_floor_now and not is_landing:
-        new_animation = "jump"
-        anim.speed_scale = 1.0
-    elif abs(velocity.x) > 10 and not is_landing:
-        new_animation = "run"
-        var normalized_speed = abs(velocity.x) / move_speed
-        var speed_factor = pow(0.1 + normalized_speed, 1.4)
-        anim.speed_scale = clamp(speed_factor, 0, 1)
-    elif not is_landing:
-        new_animation = "idle"
-        anim.speed_scale = 1.0
+	velocity.x = current_speed
+	velocity.y += gravity * delta
 
-    # -- run sound --
-    if runAudio and previous_animation == "run" and new_animation == "idle" and anim.frame == 0:
-        runAudio.play()
-    
-    # -- animation update --
-    previous_animation = new_animation
-    anim.play(new_animation)
+func _handle_jump(delta: float, is_on_floor_now: bool) -> void:
+	if is_on_floor_now:
+		coyote_time_counter = coyote_time
+	else:
+		coyote_time_counter -= delta
+		
+	if Input.is_action_just_pressed(input_jump):
+		jump_buffer_counter = jump_buffer_time
+	
+	if (is_on_floor_now || coyote_time_counter > 0.0) && jump_buffer_counter > 0.0:
+		velocity.y = -jump_velocity  # Use calculated jump_velocity instead of jump_force
+		coyote_time_counter = 0.0
+		jump_buffer_counter = 0.0
+		if jumpAudio:
+			jumpAudio.play()
+	
+	jump_buffer_counter -= delta
 
-    # -- sprite flipping --
-    if input_direction < 0:
-        anim.scale.x = -1
-    elif input_direction > 0:
-        anim.scale.x = 1
+func _handle_step_assist(input_direction: float, is_on_floor_now: bool) -> void:
+	if !is_on_floor_now || input_direction == 0.0:
+		return
+		
+	var dir: float = sign(input_direction)
+	var movement := Vector2(dir, 0)
+	
+	# Test horizontal movement first
+	if test_move(transform, movement):
+		# If blocked, try stepping up
+		for i in range(1, step_height + 1):
+			var step_up := Vector2(0, -i)
+			
+			if !test_move(transform, step_up) && !test_move(transform.translated(step_up), movement):
+				# We found a valid step height, apply it
+				move_and_collide(step_up)
+				move_and_collide(movement)
+				break
 
-    was_on_floor = is_on_floor_now
+func _handle_animation(input_direction: float, is_on_floor_now: bool) -> void:
+	if !anim:
+		return
+		
+	var new_animation := ""
+	var movement_speed: float = abs(current_speed)
+	var MIN_MOVE_THRESHOLD := 27.0  # Minimum speed to consider as "moving"
+	
+	if is_on_floor_now && !was_on_floor:
+		new_animation = "land"
+		anim.speed_scale = 1.0
+		is_landing = true
+		if landAudio:
+			landAudio.play()
+	elif !is_on_floor_now && !is_landing:
+		new_animation = "jump"
+		anim.speed_scale = 1.0
+	elif movement_speed > MIN_MOVE_THRESHOLD && !is_landing:
+		new_animation = "run"
+		# Scale animation speed with momentum
+		var total_speed = movement_speed
+		anim.speed_scale = clamp(pow(0.1 + total_speed / (move_speed + max_momentum_bonus), 1.4), 0.0, 1.0)
+	elif !is_landing:
+		new_animation = "idle"
+		anim.speed_scale = 1.0
+	
+	if runAudio && previous_animation == "run" && new_animation == "idle" && anim.frame == 0:
+		runAudio.play()
+	
+	previous_animation = new_animation
+	anim.play(new_animation)
+	
+	if input_direction != 0:
+		anim.scale.x = sign(input_direction)
 
-    # -- camera follow --
-    if camera:
-        var target_position = global_position + Vector2(velocity.x * 0.85, velocity.y * 0.85)
-        camera.global_position = lerp(camera.global_position, target_position, 0.06)
+func _update_camera(delta: float) -> void:
+	if !camera:
+		return
+		
+	# Smooth out velocity for prediction
+	smoothed_velocity = smoothed_velocity.lerp(velocity, 10.0 * delta)
+	
+	# Calculate predicted position with separate horizontal/vertical factors
+	var prediction := Vector2(
+		smoothed_velocity.x * camera_prediction_h,
+		smoothed_velocity.y * camera_prediction_v
+	)
+	
+	# Clamp the prediction to max offset
+	if prediction.length() > max_camera_offset:
+		prediction = prediction.normalized() * max_camera_offset
+	
+	var target_position := global_position + prediction
+	
+	# Framerate-independent lerp
+	camera.global_position = camera.global_position.lerp(
+		target_position, 
+		1.0 - exp(-camera_smoothing * 90.0 * delta)
+	)

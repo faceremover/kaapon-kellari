@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://byjcd2q1ai1xq"]
+
+[ext_resource type="Script" uid="uid://ddy4wnre15qnj" path="res://score_particle.gd" id="1"]
+[ext_resource type="Theme" uid="uid://diy3aemnqtaax" path="res://default_theme.tres" id="1_jfatn"]
+
+[node name="ScoreParticle" type="Label"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.5
+offset_top = -11.5
+offset_right = 9.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_jfatn")
+text = "69"
+horizontal_alignment = 1
+script = ExtResource("1")
+move_speed = 200.0

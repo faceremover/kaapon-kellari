@@ -31,7 +31,6 @@ func _process(delta):
             fade_to_stream(3 - current_stream)  # Toggle between 1 and 2
     
     var t = fade_time / fade_duration
-    # Replace lerp with linear_to_db
     if current_stream == 1:
         stream_player_1.volume_db = linear_to_db(t)
         stream_player_2.volume_db = linear_to_db(1 - t)
@@ -61,12 +60,11 @@ func _set_current_stream(value: int):
     current_stream = value
     fade_to_stream(value)
 
-func _toggels(pressed: bool):
+func _on_area_2d_game_state_changed(new_state:bool):
     # Toggle between streams when button is pressed
-    if pressed:
-        fade_to_stream(2)
-    else:
+    if new_state == true:
         fade_to_stream(1)
-    
+    else:
+        fade_to_stream(2)
     #debug
     print("Current stream: ", current_stream)

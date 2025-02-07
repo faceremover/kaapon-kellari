@@ -102,8 +102,8 @@ twirl={
 
 2d/run_on_separate_thread=true
 3d/run_on_separate_thread=true
-common/physics_ticks_per_second=30
 3d/physics_engine="Jolt Physics"
+2d/solver/solver_iterations=12
 common/physics_interpolation=true
 
 [rendering]

@@ -10,12 +10,12 @@ spread = 0.8
 wet = 0.16
 
 [resource]
-bus/0/volume_db = -2.11474
+bus/0/volume_db = -0.130497
 bus/1/name = &"sfx"
 bus/1/solo = false
 bus/1/mute = false
 bus/1/bypass_fx = false
-bus/1/volume_db = -3.32444
+bus/1/volume_db = -0.128275
 bus/1/send = &"Master"
 bus/1/effect/0/effect = SubResource("AudioEffectReverb_j3pel")
 bus/1/effect/0/enabled = true
@@ -23,7 +23,7 @@ bus/2/name = &"music"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
-bus/2/volume_db = -0.526013
+bus/2/volume_db = -80.0
 bus/2/send = &"Master"
 bus/3/name = &"ui"
 bus/3/solo = false
