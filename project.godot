@@ -24,6 +24,10 @@ config/icon="uid://2xgr3ve4380j"
 
 general/2d_panning_strength=0.8
 
+[autoload]
+
+GameStateSingleton="*res://GameStateSingleton.gd"
+
 [compression]
 
 formats/zstd/long_distance_matching=true
