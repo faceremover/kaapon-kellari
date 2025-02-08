@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://c38akdngn1pcu"]
+
+[ext_resource type="PackedScene" uid="uid://d231q0kcb0rw8" path="res://global_ui.tscn" id="1_oaw30"]
+[ext_resource type="AudioStream" uid="uid://545f1qj8mvxu" path="res://audio/sfx/score/score1.wav" id="2_mj8uy"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ppw2n"]
+random_pitch = 1.01
+streams_count = 1
+stream_0/stream = ExtResource("2_mj8uy")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CanvasLayer" parent="." instance=ExtResource("1_oaw30")]
+
+[node name="TIMER" parent="CanvasLayer" index="1"]
+script = null
+
+[node name="SCORE" parent="CanvasLayer" index="2" node_paths=PackedStringArray("score_sound")]
+score_smoothing = 5.2
+score_sound = NodePath("score sound")
+
+[node name="effect" parent="CanvasLayer/SCORE" index="0"]
+shake_intensity = 3.134
+shake_decay = 10.851
+offset_interval = 0.026
+offset_interpolation = 14.787
+
+[node name="score sound" type="AudioStreamPlayer2D" parent="CanvasLayer/SCORE" index="1"]
+stream = SubResource("AudioStreamRandomizer_ppw2n")
+panning_strength = 0.51
+bus = &"sfx"
+
+[node name="ParticleLayer" parent="CanvasLayer" index="3"]
+follow_viewport_enabled = true
+
+[editable path="CanvasLayer"]

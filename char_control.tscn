@@ -1,0 +1,176 @@
+[gd_scene load_steps=23 format=3 uid="uid://b7825pnoqgvdt"]
+
+[ext_resource type="Script" uid="uid://b1vgmq3ktr04m" path="res://platformer_controller.gd" id="1_dr65y"]
+[ext_resource type="Texture2D" uid="uid://dxjm8w2vwhvyj" path="res://sprites/light.png" id="2_q81p8"]
+[ext_resource type="Texture2D" uid="uid://cu2qxgwfgnhvc" path="res://sprites/geek1.png" id="3_5x23n"]
+[ext_resource type="Texture2D" uid="uid://13rbtvhmpsvh" path="res://sprites/geek2.png" id="4_ebc52"]
+[ext_resource type="Texture2D" uid="uid://crt7s01ji5s6m" path="res://sprites/geek3.png" id="5_4wydl"]
+[ext_resource type="AudioStream" uid="uid://b0dor60tn3who" path="res://audio/sfx/player/step/step-01.wav" id="6_tihsf"]
+[ext_resource type="AudioStream" uid="uid://dajrg6bkjlsos" path="res://audio/sfx/player/step/step-02.wav" id="7_y2xdr"]
+[ext_resource type="AudioStream" uid="uid://sjety3kdrl1y" path="res://audio/sfx/player/step/step-03.wav" id="8_5acxl"]
+[ext_resource type="AudioStream" uid="uid://bta60s0l88708" path="res://audio/sfx/player/step/step-04.wav" id="9_s2ypj"]
+[ext_resource type="AudioStream" uid="uid://cy7knbi08aicq" path="res://audio/sfx/player/step/step-05.wav" id="10_w2s5w"]
+[ext_resource type="AudioStream" uid="uid://bnnipnjmssmah" path="res://audio/sfx/player/step/step-06.wav" id="11_wg7df"]
+[ext_resource type="AudioStream" uid="uid://ng4vt122c3pt" path="res://audio/sfx/player/step/step-07.wav" id="12_0g7fl"]
+[ext_resource type="AudioStream" uid="uid://dwauyprjt673l" path="res://audio/sfx/player/step/step-08.wav" id="13_yqkry"]
+[ext_resource type="AudioStream" uid="uid://co66c7hsc5tdk" path="res://audio/sfx/player/jump/jump-01.wav" id="14_fh41y"]
+[ext_resource type="AudioStream" uid="uid://et8baypfg2mb" path="res://audio/sfx/player/jump/jump-02.wav" id="15_0ch4e"]
+[ext_resource type="AudioStream" uid="uid://s24uo30woosh" path="res://audio/sfx/player/jump/jump-03.wav" id="16_m68d2"]
+[ext_resource type="AudioStream" uid="uid://jwkgf20rg0fg" path="res://audio/sfx/player/jump/jump-04.wav" id="17_13h88"]
+[ext_resource type="AudioStream" uid="uid://b2867u0qf0xxq" path="res://audio/sfx/player/jump/jump-05.wav" id="18_2jms0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o6xfg"]
+radius = 3.0
+height = 13.5
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kadlq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_5x23n")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ebc52")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_4wydl")
+}],
+"loop": false,
+"name": &"land",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.1,
+"texture": ExtResource("4_ebc52")
+}, {
+"duration": 0.9,
+"texture": ExtResource("3_5x23n")
+}],
+"loop": true,
+"name": &"run",
+"speed": 27.0
+}]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o6xfg"]
+random_pitch = 1.06
+streams_count = 8
+stream_0/stream = ExtResource("6_tihsf")
+stream_1/stream = ExtResource("7_y2xdr")
+stream_2/stream = ExtResource("8_5acxl")
+stream_3/stream = ExtResource("9_s2ypj")
+stream_4/stream = ExtResource("10_w2s5w")
+stream_5/stream = ExtResource("11_wg7df")
+stream_6/stream = ExtResource("12_0g7fl")
+stream_7/stream = ExtResource("13_yqkry")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_euruc"]
+random_pitch = 1.08
+streams_count = 5
+stream_0/stream = ExtResource("14_fh41y")
+stream_1/stream = ExtResource("15_0ch4e")
+stream_2/stream = ExtResource("16_m68d2")
+stream_3/stream = ExtResource("17_13h88")
+stream_4/stream = ExtResource("18_2jms0")
+
+[node name="char CONTROL" type="CharacterBody2D" node_paths=PackedStringArray("anim", "camera", "jumpAudio", "landAudio", "runAudio", "wall_bounce_audio") groups=["Player"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 2
+light_mask = 0
+z_index = 1
+floor_stop_on_slope = false
+script = ExtResource("1_dr65y")
+move_speed = 150.0
+jump_height = 25.0
+acceleration = 9.0
+deceleration = 15.0
+input_left = "left"
+input_right = "right"
+coyote_time = 0.06
+jump_buffer_time = 0.15
+anim = NodePath("char SPRITE")
+camera = NodePath("")
+jumpAudio = NodePath("char SPRITE/sfx/jump")
+landAudio = NodePath("char SPRITE/sfx/land")
+runAudio = NodePath("char SPRITE/sfx/run")
+land_volume_multiplier = 30.0
+mid_air_friction = 0.7
+wall_bounce_audio = NodePath("char SPRITE/sfx/bounce")
+max_momentum_bonus = 200.0
+momentum_build_time = 3.5
+camera_smoothing = 0.025
+camera_prediction_h = 0.799
+camera_prediction_v = 0.913
+max_camera_offset = 240.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+auto_translate_mode = 2
+z_index = 4
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_o6xfg")
+debug_color = Color(0.875228, 0.000425283, 0.836156, 0.42)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_filter_smooth = 2.4
+texture = ExtResource("2_q81p8")
+height = 105.0
+
+[node name="char SPRITE" type="AnimatedSprite2D" parent="."]
+visibility_layer = 16
+z_index = 4
+z_as_relative = false
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_kadlq")
+animation = &"run"
+frame_progress = 0.6218
+
+[node name="sfx" type="Node2D" parent="char SPRITE"]
+
+[node name="run" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_o6xfg")
+volume_db = -7.505
+pitch_scale = 1.47
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"
+
+[node name="land" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_o6xfg")
+volume_db = -6.968
+pitch_scale = 1.01
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"
+
+[node name="jump" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_euruc")
+volume_db = -8.578
+pitch_scale = 1.01
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"
+
+[node name="bounce" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_o6xfg")
+volume_db = -7.503
+pitch_scale = 0.64
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"

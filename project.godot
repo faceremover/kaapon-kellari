@@ -13,6 +13,7 @@ config_version=5
 config/name="Kaapon Kellari"
 run/main_scene="uid://cng30edglssbd"
 run/enable_alt_space_menu=true
+config/use_custom_user_dir=true
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.0855, 0.086575, 0.15, 1)
 boot_splash/image="uid://2xgr3ve4380j"
@@ -22,6 +23,17 @@ config/icon="uid://2xgr3ve4380j"
 [audio]
 
 general/2d_panning_strength=0.8
+
+[autoload]
+
+GameStateSingleton="*res://GameStateSingleton.gd"
+
+[compression]
+
+formats/zstd/long_distance_matching=true
+formats/zstd/compression_level=12
+formats/zlib/compression_level=9
+formats/gzip/compression_level=9
 
 [debug]
 
@@ -39,7 +51,19 @@ window/size/window_height_override=600
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
 window/stretch/scale_mode="integer"
-window/vsync/vsync_mode=0
+
+[dotnet]
+
+project/assembly_name="Kaapon Kellari"
+
+[global_group]
+
+Player="Group for player entities"
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
 
 [input]
 
@@ -102,6 +126,7 @@ twirl={
 
 2d/run_on_separate_thread=true
 3d/run_on_separate_thread=true
+common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
 2d/solver/solver_iterations=12
 common/physics_interpolation=true

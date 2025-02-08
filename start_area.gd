@@ -22,8 +22,16 @@ var shake_offset := Vector2.ZERO
 var base_timer_position := Vector2.ZERO
 var original_camera_speed := 1.0
 var timer: Timer
+var start_collectible_locs: Array = []
+
+var collectible_ref := preload("res://collectible.tscn")
 
 func _ready():
+
+	var start_collectibles = get_tree().get_nodes_in_group("Collectible")
+	for collectible in start_collectibles:
+		start_collectible_locs.append(collectible.global_position)
+
 	# Create and configure the timer.
 	timer = Timer.new()
 	timer.wait_time = countdown_duration
@@ -48,7 +56,7 @@ func _ready():
 		timer_label.visible = false
 	if score:
 		score.set_game_active(game_active)
-		score.reset_score()
+		GameStateSingleton.reset_score()
 	if camera:
 		original_camera_speed = camera.position_smoothing_speed
 
@@ -134,14 +142,17 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 		flash_time = 0
 		if start_sound:
 			start_sound.play()
+		for collectible_pos in start_collectible_locs:
+			var collectible = collectible_ref.instantiate()
+			collectible.global_position = collectible_pos
+			get_tree().current_scene.add_child(collectible)
 		emit_signal("game_state_changed", game_active)
 		if score:
 			score.set_game_active(game_active)
-			score.reset_score()
+			GameStateSingleton.reset_score()
+		timer.start()
 		if timer_label:
 			timer_label.visible = true
-		timer.start()
-		score.reset_score()
 
 func _on_timer_timeout() -> void:
 	if timeout_sound:
@@ -152,7 +163,7 @@ func _on_timer_timeout() -> void:
 		timer_label.position = base_timer_position
 	_reset_camera()
 	if score:
-		score.halve_score()
+		GameStateSingleton.halve_score()
 	if player:
 		player.global_position = Vector2.ZERO
 	if timer_label:
@@ -162,6 +173,9 @@ func _on_body_entered(body: Node) -> void:
 	if body == player:
 		alert_active = false
 		_reset_camera()
+		var all_collectibles = get_tree().get_nodes_in_group("Collectible")
+		for collectible in all_collectibles:
+			collectible.queue_free()
 		if timer and not timer.is_stopped():
 			_cool_reset_sequence()
 		else:
@@ -183,6 +197,8 @@ func _cool_reset_sequence() -> void:
 	if score:
 		score.set_game_active(true)
 	await async_cool_reset(seconds_remaining)
+	if !cool_reset_active:
+		return
 	if score:
 		score.set_game_active(false)
 	if timer_label:
@@ -202,7 +218,7 @@ func async_cool_reset(seconds_remaining: int) -> void:
 		if !cool_reset_active:
 			break
 		if score:
-			score.add_score(1)
+			GameStateSingleton.add_score(1)
 		if timer_label and is_instance_valid(timer_label):
 			var points_left = total_points - i - 1
 			var time_left = int(ceil(float(points_left)))
