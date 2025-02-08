@@ -90,28 +90,30 @@ func _handle_movement(delta: float, input_direction: float, is_on_floor_now: boo
 	var speed_sign = sign(current_speed)
 	var input_sign = sign(input_direction)
 	
-	# Reset momentum when changing direction
-	if speed_sign != 0 and input_sign != 0 and speed_sign != input_sign:
-		run_build_timer = 0.0
-		current_speed *= 0.6  # Quick slowdown when turning
-	elif is_on_floor_now and input_direction != 0 and speed_sign == input_sign:
-		run_build_timer += delta
-	else:
-		run_build_timer = 0.0
-
+	# Only reset momentum when on the ground
+	if is_on_floor_now:
+		if speed_sign != 0 and input_sign != 0 and speed_sign != input_sign:
+			run_build_timer = 0.0
+			current_speed *= 0.6  # Quick slowdown when turning
+		elif input_direction != 0 and speed_sign == input_sign:
+			run_build_timer += delta
+		else:
+			run_build_timer = 0.0
+	# If airborne, keep momentum unchanged.
+	
 	var ramp = clamp(run_build_timer / momentum_build_time, 0.0, 1.0)
 	var desired_speed = input_direction * (move_speed + max_momentum_bonus * ramp)
-
-	# More aggressive deceleration when changing direction
+	
+	# More aggressive deceleration when turning on ground
 	var accel_amount := acceleration
-	if abs(desired_speed) < abs(current_speed) or (speed_sign != 0 and input_sign != 0 and speed_sign != input_sign):
-		accel_amount = deceleration * 1.5  # Increase deceleration when turning
+	if abs(desired_speed) < abs(current_speed) or (is_on_floor_now and speed_sign != 0 and input_sign != 0 and speed_sign != input_sign):
+		accel_amount = deceleration * 1.5
 	if !is_on_floor_now:
 		accel_amount *= mid_air_friction
-
+	
 	var raw_speed = move_toward(current_speed, desired_speed, accel_amount * move_speed * delta)
 	current_speed = lerp(current_speed, raw_speed, 0.25)
-
+	
 	# Combined collision logic
 	if is_on_wall():
 		for i in range(get_slide_collision_count()):
@@ -233,6 +235,17 @@ func _update_camera(delta: float) -> void:
 		prediction = prediction.normalized() * max_camera_offset
 	
 	var target_position := global_position + prediction
+	
+	# Add slight camera shake based on bonus speed
+	var base_speed = move_speed
+	if abs(current_speed) > base_speed:
+		var bonus = (abs(current_speed) - base_speed) / max_momentum_bonus
+		var shake_magnitude = bonus * 50.0  # tweak factor for desired shake intensity
+		var bonus_shake := Vector2(
+			randf_range(-shake_magnitude, shake_magnitude),
+			randf_range(-shake_magnitude, shake_magnitude)
+		)
+		target_position += bonus_shake
 	
 	# Framerate-independent lerp
 	camera.global_position = camera.global_position.lerp(

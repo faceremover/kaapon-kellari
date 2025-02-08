@@ -86,7 +86,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 18.0
+"speed": 27.0
 }]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o6xfg"]
@@ -166,7 +166,7 @@ bus = &"sfx"
 [node name="alert" type="AudioStreamPlayer2D" parent="START AREA/Area2D"]
 position = Vector2(-62, -41)
 stream = ExtResource("3_y0plo")
-volume_db = -12.866
+volume_db = -6.433
 pitch_scale = 0.98
 panning_strength = 0.0
 bus = &"sfx"
@@ -236,8 +236,8 @@ floor_stop_on_slope = false
 script = ExtResource("1_l6dqp")
 move_speed = 150.0
 jump_height = 25.0
-acceleration = 10.0
-deceleration = 35.0
+acceleration = 9.0
+deceleration = 15.0
 input_left = "left"
 input_right = "right"
 coyote_time = 0.06
@@ -250,11 +250,12 @@ runAudio = NodePath("char SPRITE/sfx/run")
 land_volume_multiplier = 30.0
 mid_air_friction = 0.7
 wall_bounce_audio = NodePath("char SPRITE/sfx/bounce")
-max_momentum_bonus = 120.0
+max_momentum_bonus = 200.0
 momentum_build_time = 3.5
 camera_smoothing = 0.025
-camera_prediction_h = 0.737
+camera_prediction_h = 0.799
 camera_prediction_v = 0.913
+max_camera_offset = 240.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="character/char CONTROL"]
 auto_translate_mode = 2
@@ -278,7 +279,7 @@ z_as_relative = false
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kadlq")
 animation = &"run"
-frame_progress = 0.590842
+frame_progress = 0.6218
 
 [node name="sfx" type="Node2D" parent="character/char CONTROL/char SPRITE"]
 
