@@ -138,10 +138,9 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 		if score:
 			score.set_game_active(game_active)
 			score.reset_score()
+		timer.start()
 		if timer_label:
 			timer_label.visible = true
-		timer.start()
-		score.reset_score()
 
 func _on_timer_timeout() -> void:
 	if timeout_sound:
@@ -183,6 +182,8 @@ func _cool_reset_sequence() -> void:
 	if score:
 		score.set_game_active(true)
 	await async_cool_reset(seconds_remaining)
+	if !cool_reset_active:
+		return
 	if score:
 		score.set_game_active(false)
 	if timer_label:
