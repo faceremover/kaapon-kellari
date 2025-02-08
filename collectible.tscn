@@ -3,28 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://byilk0qttqlq6" path="res://sprites/games/game_1.png" id="1_rd2yi"]
 [ext_resource type="Script" uid="uid://da1fdxqj5viod" path="res://collectible.gd" id="1_yciwo"]
 [ext_resource type="Script" uid="uid://cnfnqr8epd5c3" path="res://2px-snap.gd" id="2_8orai"]
-[ext_resource type="AudioStream" uid="uid://545f1qj8mvxu" path="res://audio/sfx/score/score1.wav" id="4_h1l3x"]
+[ext_resource type="AudioStream" uid="uid://biueojgeequ6u" path="res://audio/sfx/misc/collect.ogg" id="4_h1l3x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8orai"]
 size = Vector2(12, 16)
-
-[sub_resource type="Animation" id="Animation_yciwo"]
-resource_name = "idle"
-length = 2.0
-loop_mode = 1
-step = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("spritetarget:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(-2, -2, -2),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_h1l3x"]
 length = 0.001
@@ -80,6 +62,24 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(2, 1),
 "update": 0,
 "values": [Color(0.556863, 0.556863, 0.556863, 0.784314), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yciwo"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("spritetarget:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h1l3x"]

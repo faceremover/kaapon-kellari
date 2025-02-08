@@ -3,6 +3,7 @@ extends Label
 @export_range(1, 20) var score_smoothing := 10.0
 @export var effect_label: Label
 @export var score_sound: AudioStreamPlayer2D
+@export var score_sound2down: AudioStreamPlayer2D
 
 var game_active := false
 var current_score := 0
@@ -37,10 +38,7 @@ func halve_score() -> void:
 	if effect_label:
 		effect_label.show_effect("-50%", false, 0.4)
 	if score_sound:  # Play sound for penalty
-		score_sound.pitch_scale = 0.5  # Lower pitch for negative effect
-		score_sound.play()
-		await score_sound.finished
-		score_sound.pitch_scale = 1.0  # Reset pitch
+		score_sound2down.play()
 	set_process(true)
 
 func reset_score() -> void:
@@ -59,6 +57,12 @@ func _process(delta: float) -> void:
 		text = str(current_score)
 		set_process(false)
 		return
+	var old_displayed_score := displayed_score
 	displayed_score = move_toward(displayed_score, target, 
 								score_smoothing * delta * max(1.0, abs(displayed_score - target)))
+	if int(displayed_score) > int(old_displayed_score):
+		score_sound.play()
+	elif int(displayed_score) < int(old_displayed_score):
+		score_sound2down.play()
+
 	text = str(int(round(displayed_score)))

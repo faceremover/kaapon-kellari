@@ -1,12 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://c38akdngn1pcu"]
+[gd_scene load_steps=6 format=3 uid="uid://c38akdngn1pcu"]
 
 [ext_resource type="PackedScene" uid="uid://d231q0kcb0rw8" path="res://global_ui.tscn" id="1_oaw30"]
 [ext_resource type="AudioStream" uid="uid://545f1qj8mvxu" path="res://audio/sfx/score/score1.wav" id="2_mj8uy"]
+[ext_resource type="AudioStream" uid="uid://cv1gf0t8nxhta" path="res://audio/sfx/score/score_substract.ogg" id="3_mj8uy"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ppw2n"]
-random_pitch = 1.01
+random_pitch = 1.05
 streams_count = 1
 stream_0/stream = ExtResource("2_mj8uy")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_oaw30"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("3_mj8uy")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -37,6 +43,13 @@ offset_interpolation = 14.787
 
 [node name="score sound" type="AudioStreamPlayer2D" parent="CanvasLayer/SCORE" index="1"]
 stream = SubResource("AudioStreamRandomizer_ppw2n")
+panning_strength = 0.51
+bus = &"sfx"
+
+[node name="score sound2down" type="AudioStreamPlayer2D" parent="CanvasLayer/SCORE" index="2"]
+stream = SubResource("AudioStreamRandomizer_oaw30")
+volume_db = -3.0
+pitch_scale = 0.5
 panning_strength = 0.51
 bus = &"sfx"
 

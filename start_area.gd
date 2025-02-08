@@ -142,10 +142,7 @@ func _on_body_exited(body: CharacterBody2D) -> void:
 		flash_time = 0
 		if start_sound:
 			start_sound.play()
-		for collectible_pos in start_collectible_locs:
-			var collectible = collectible_ref.instantiate()
-			collectible.global_position = collectible_pos
-			get_tree().current_scene.add_child(collectible)
+		
 		emit_signal("game_state_changed", game_active)
 		if score:
 			score.set_game_active(game_active)
@@ -176,6 +173,10 @@ func _on_body_entered(body: Node) -> void:
 		var all_collectibles = get_tree().get_nodes_in_group("Collectible")
 		for collectible in all_collectibles:
 			collectible.queue_free()
+		for collectible_pos in start_collectible_locs:
+			var collectible = collectible_ref.instantiate()
+			collectible.global_position = collectible_pos
+			get_tree().current_scene.add_child(collectible)
 		if timer and not timer.is_stopped():
 			_cool_reset_sequence()
 		else:
