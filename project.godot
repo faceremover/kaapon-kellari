@@ -41,6 +41,10 @@ window/stretch/aspect="keep_height"
 window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=0
 
+[dotnet]
+
+project/assembly_name="Kaapon Kellari"
+
 [input]
 
 left={
