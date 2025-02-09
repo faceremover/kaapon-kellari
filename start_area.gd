@@ -85,8 +85,6 @@ func _process(_delta: float) -> void:
 func _apply_camera_shake(time_remaining: float) -> void:
 	var elapsed = countdown_duration - time_remaining
 	var shake_intensity = 10.0 * (0.5 - elapsed)
-	if camera:
-		camera.position_smoothing_speed = 100.0 * (0.5 - elapsed) + original_camera_speed
 	shake_offset = Vector2(
 		randf_range(-shake_intensity, shake_intensity),
 		randf_range(-shake_intensity, shake_intensity)
@@ -99,9 +97,6 @@ func _apply_camera_shake(time_remaining: float) -> void:
 	timer_label.position = base_timer_position + shake_offset
 
 func _handle_alert(time_remaining: float, current_second: int) -> void:
-	if camera:
-		var alert_intensity = (15.0 - time_remaining) / 15.0
-		camera.position_smoothing_speed = 15.0 * alert_intensity + original_camera_speed
 	if not alert_active:
 		alert_active = true
 	
@@ -133,16 +128,14 @@ func _reset_display() -> void:
 	timer_label.position = base_timer_position
 	if camera:
 		camera.offset = Vector2.ZERO
-		camera.position_smoothing_speed = original_camera_speed
-
-func _reset_timer_color() -> void:
-	if timer_label:
-		timer_label.modulate = Color.WHITE
 
 func _reset_camera() -> void:
 	if camera:
 		camera.offset = Vector2.ZERO
-		camera.position_smoothing_speed = original_camera_speed
+
+func _reset_timer_color() -> void:
+	if timer_label:
+		timer_label.modulate = Color.WHITE
 
 func _on_body_exited(body: CharacterBody2D) -> void:
 	if body == player:

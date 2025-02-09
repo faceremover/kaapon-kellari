@@ -1,7 +1,6 @@
 extends Node2D
 
 @export var target_path: NodePath
-@export var follow_speed: float = 5.0
 @export var follow_speed_x: float = 5.0
 @export var follow_speed_y: float = 5.0
 

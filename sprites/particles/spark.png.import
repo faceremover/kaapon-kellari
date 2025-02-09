@@ -2,25 +2,25 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqw377tcpdqpd"
-path="res://.godot/imported/shard.png-f9c128647e34f9020d5c48e9fc213c4e.ctex"
+uid="uid://7dryvvhvssik"
+path="res://.godot/imported/spark.png-2ad072de3d67b7e8637b3a12b7db3fd8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/particles/shard.png"
-dest_files=["res://.godot/imported/shard.png-f9c128647e34f9020d5c48e9fc213c4e.ctex"]
+source_file="res://sprites/particles/spark.png"
+dest_files=["res://.godot/imported/spark.png-2ad072de3d67b7e8637b3a12b7db3fd8.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
-compress/lossy_quality=0.7
+compress/lossy_quality=0.15
 compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
+compress/normal_map=2
+compress/channel_pack=1
 mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
