@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://pram1v743klr" path="res://audio/sfx/score/finish.wav" id="4_ekdmj"]
 [ext_resource type="AudioStream" uid="uid://cany0a4i1xdr8" path="res://audio/sfx/score/timeout.wav" id="5_xumjr"]
 [ext_resource type="FontFile" uid="uid://bf7jx22t3omrp" path="res://Jersey10-Regular.ttf" id="8_lcvlc"]
-[ext_resource type="Script" uid="uid://dpeu8l2lsmyus" path="res://bestscore_label.gd" id="9_vgge0"]
+[ext_resource type="Script" path="res://bestscore_label.gd" id="9_vgge0"]
 [ext_resource type="PackedScene" uid="uid://b3qti6oewvirt" path="res://character.tscn" id="11_2gsgu"]
 [ext_resource type="PackedScene" uid="uid://c38akdngn1pcu" path="res://game_ui.tscn" id="12_qndrj"]
 [ext_resource type="PackedScene" uid="uid://b7ni6233rc813" path="res://collectible.tscn" id="17_2gsgu"]
@@ -31,7 +31,7 @@ texture_filter = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_vgge0"]
 font = ExtResource("8_lcvlc")
-font_size = 72
+font_size = 95
 shadow_size = 5
 shadow_color = Color(0, 0, 0, 1)
 
@@ -96,10 +96,10 @@ scale = Vector2(0.630253, 0.479787)
 texture = SubResource("CanvasTexture_3bsyv")
 
 [node name="bestscore_label" type="Label" parent="START AREA"]
-offset_left = 81.0
+offset_left = 67.0
 offset_top = -26.0
-offset_right = 412.0
-offset_bottom = 52.0
+offset_right = 505.0
+offset_bottom = 77.0
 scale = Vector2(0.2, 0.2)
 text = "Best Score: 0"
 label_settings = SubResource("LabelSettings_vgge0")

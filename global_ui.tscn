@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://diy3aemnqtaax" path="res://default_theme.tres" id="2_r5ibi"]
 [ext_resource type="Script" uid="uid://be3p1xtwmal36" path="res://score.gd" id="3_gjitu"]
 [ext_resource type="Script" uid="uid://dswjh7nkwj7cw" path="res://score_effect.gd" id="4_gjitu"]
-[ext_resource type="Script" uid="uid://botw61dalbeqj" path="res://highscore_uieffect.gd" id="5_af06w"]
+[ext_resource type="Script" path="res://highscore_uieffect.gd" id="5_af06w"]
 [ext_resource type="AudioStream" uid="uid://bjkihakblwxg7" path="res://audio/sfx/score/highscore.ogg" id="6_36pdv"]
 
 [sub_resource type="GDScript" id="GDScript_b2grt"]
@@ -22,6 +22,45 @@ func _on_time_updated(time_text: String) -> void:
 [sub_resource type="LabelSettings" id="LabelSettings_gjitu"]
 font_size = 36
 font_color = Color(1, 0.811109, 0.16002, 1)
+
+[sub_resource type="Animation" id="Animation_36pdv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.4, 0.4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-50, 16)]
+}
 
 [sub_resource type="Animation" id="Animation_af06w"]
 resource_name = "highscore"
@@ -77,45 +116,6 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-50, 16), Vector2(-43, 15)]
-}
-
-[sub_resource type="Animation" id="Animation_36pdv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.4, 0.4)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-50, 16)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_36pdv"]
