@@ -5,6 +5,8 @@ extends Label
 @export var score_sound: AudioStreamPlayer2D
 @export var score_sound2down: AudioStreamPlayer2D
 
+@onready var highscore_label = $highscore
+
 var game_active := false
 var current_score := 0
 var displayed_score := 0.0
@@ -55,6 +57,10 @@ func _process(delta: float) -> void:
 	if abs(displayed_score - target) < 0.1:
 		displayed_score = target
 		text = str(current_score)
+		if !game_active and displayed_score >= GameStateSingleton.highscore:
+			highscore_label.show_effect()
+			GameStateSingleton.highscore = int(displayed_score)
+			GameStateSingleton.save_game()
 		set_process(false)
 		return
 	var old_displayed_score := displayed_score

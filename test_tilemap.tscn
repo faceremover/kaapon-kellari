@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://cng30edglssbd"]
+[gd_scene load_steps=23 format=4 uid="uid://cng30edglssbd"]
 
 [ext_resource type="Script" uid="uid://dtgkxh6x02p0b" path="res://start_area.gd" id="1_ey41o"]
 [ext_resource type="AudioStream" uid="uid://b8oqom02uj6f5" path="res://audio/sfx/score/start.wav" id="2_ppw2n"]
@@ -8,6 +8,8 @@
 [ext_resource type="TileSet" uid="uid://d2pw0w7ygxeg1" path="res://tilesets/secondary/secondary_stone_tiled_godot4.tres" id="4_d2mq3"]
 [ext_resource type="AudioStream" uid="uid://pram1v743klr" path="res://audio/sfx/score/finish.wav" id="4_ekdmj"]
 [ext_resource type="AudioStream" uid="uid://cany0a4i1xdr8" path="res://audio/sfx/score/timeout.wav" id="5_xumjr"]
+[ext_resource type="FontFile" uid="uid://bf7jx22t3omrp" path="res://Jersey10-Regular.ttf" id="8_lcvlc"]
+[ext_resource type="Script" uid="uid://dpeu8l2lsmyus" path="res://bestscore_label.gd" id="9_vgge0"]
 [ext_resource type="PackedScene" uid="uid://b3qti6oewvirt" path="res://character.tscn" id="11_2gsgu"]
 [ext_resource type="PackedScene" uid="uid://c38akdngn1pcu" path="res://game_ui.tscn" id="12_qndrj"]
 [ext_resource type="PackedScene" uid="uid://b7ni6233rc813" path="res://collectible.tscn" id="17_2gsgu"]
@@ -26,6 +28,12 @@ diffuse_texture = ExtResource("41_i1alb")
 normal_texture = ExtResource("42_0qmhf")
 specular_shininess = 0.37
 texture_filter = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_vgge0"]
+font = ExtResource("8_lcvlc")
+font_size = 72
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
 physics_interpolation_mode = 1
@@ -85,6 +93,17 @@ bus = &"sfx"
 position = Vector2(110, -52)
 scale = Vector2(0.630253, 0.479787)
 texture = SubResource("CanvasTexture_3bsyv")
+
+[node name="bestscore_label" type="Label" parent="START AREA"]
+offset_left = 81.0
+offset_top = -26.0
+offset_right = 412.0
+offset_bottom = 52.0
+scale = Vector2(0.2, 0.2)
+text = "Best Score: 0"
+label_settings = SubResource("LabelSettings_vgge0")
+horizontal_alignment = 1
+script = ExtResource("9_vgge0")
 
 [node name="music controller" type="Node2D" parent="." node_paths=PackedStringArray("stream_player_1", "stream_player_2")]
 position = Vector2(0, -1)

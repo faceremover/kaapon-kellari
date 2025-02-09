@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://d231q0kcb0rw8"]
+[gd_scene load_steps=12 format=3 uid="uid://d231q0kcb0rw8"]
 
 [ext_resource type="PackedScene" uid="uid://cpfqxytdqsrnh" path="res://mobilecontrols.tscn" id="1_b2grt"]
 [ext_resource type="Theme" uid="uid://diy3aemnqtaax" path="res://default_theme.tres" id="2_r5ibi"]
 [ext_resource type="Script" uid="uid://be3p1xtwmal36" path="res://score.gd" id="3_gjitu"]
 [ext_resource type="Script" uid="uid://dswjh7nkwj7cw" path="res://score_effect.gd" id="4_gjitu"]
+[ext_resource type="Script" uid="uid://botw61dalbeqj" path="res://highscore_uieffect.gd" id="5_af06w"]
+[ext_resource type="AudioStream" uid="uid://bjkihakblwxg7" path="res://audio/sfx/score/highscore.ogg" id="6_36pdv"]
 
 [sub_resource type="GDScript" id="GDScript_b2grt"]
 script/source = "extends Label
@@ -16,6 +18,111 @@ func _ready():
 func _on_time_updated(time_text: String) -> void:
 	text = time_text
 "
+
+[sub_resource type="LabelSettings" id="LabelSettings_gjitu"]
+font_size = 36
+font_color = Color(1, 0.811109, 0.16002, 1)
+
+[sub_resource type="Animation" id="Animation_af06w"]
+resource_name = "highscore"
+length = 2.0
+step = 0.1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("higscore_sfx")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_36pdv")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.4, 0.4), Vector2(0.3, 0.3)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-50, 16), Vector2(-43, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_36pdv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.4, 0.4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-50, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_36pdv"]
+_data = {
+&"RESET": SubResource("Animation_36pdv"),
+&"highscore": SubResource("Animation_af06w")
+}
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
@@ -63,5 +170,29 @@ grow_horizontal = 0
 pivot_offset = Vector2(28, 7)
 horizontal_alignment = 1
 script = ExtResource("4_gjitu")
+
+[node name="highscore" type="Label" parent="SCORE"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -50.0
+offset_top = 16.0
+offset_right = 73.0
+offset_bottom = 55.0
+scale = Vector2(0.4, 0.4)
+pivot_offset = Vector2(61, 0)
+text = "New Best!"
+label_settings = SubResource("LabelSettings_gjitu")
+script = ExtResource("5_af06w")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SCORE/highscore"]
+libraries = {
+&"": SubResource("AnimationLibrary_36pdv")
+}
+
+[node name="higscore_sfx" type="AudioStreamPlayer2D" parent="SCORE/highscore"]
+position = Vector2(45, 20)
+volume_db = 3.0
+panning_strength = 0.5
+bus = &"sfx"
 
 [node name="ParticleLayer" type="CanvasLayer" parent="."]
