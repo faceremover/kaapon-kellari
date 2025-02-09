@@ -4,6 +4,7 @@ extends Label
 @export var effect_label: Label
 @export var score_sound: AudioStreamPlayer2D
 @export var score_sound2down: AudioStreamPlayer2D
+@export var halve_particles: GPUParticles2D  # new exported variable for particle effect
 
 @onready var highscore_label = $highscore
 
@@ -41,6 +42,9 @@ func halve_score() -> void:
 		effect_label.show_effect("-50%", false, 0.4)
 	if score_sound:  # Play sound for penalty
 		score_sound2down.play()
+	# Trigger particle effect when losing half of points
+	if halve_particles:
+		halve_particles.restart()
 	set_process(true)
 
 func reset_score() -> void:

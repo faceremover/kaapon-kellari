@@ -13,9 +13,9 @@ dest_files=["res://.godot/imported/score1.wav-548cfd1dfad83865d393c56a31b465fa.s
 [params]
 
 force/8_bit=false
-force/mono=false
+force/mono=true
 force/max_rate=true
-force/max_rate_hz=22050.0
+force/max_rate_hz=32000.0
 edit/trim=true
 edit/normalize=false
 edit/loop_mode=0

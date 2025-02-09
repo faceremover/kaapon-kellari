@@ -1,18 +1,65 @@
-[gd_scene load_steps=6 format=3 uid="uid://c38akdngn1pcu"]
+[gd_scene load_steps=14 format=3 uid="uid://c38akdngn1pcu"]
 
 [ext_resource type="PackedScene" uid="uid://d231q0kcb0rw8" path="res://global_ui.tscn" id="1_oaw30"]
 [ext_resource type="AudioStream" uid="uid://545f1qj8mvxu" path="res://audio/sfx/score/score1.wav" id="2_mj8uy"]
 [ext_resource type="AudioStream" uid="uid://cv1gf0t8nxhta" path="res://audio/sfx/score/score_substract.ogg" id="3_mj8uy"]
+[ext_resource type="Texture2D" uid="uid://cqw377tcpdqpd" path="res://sprites/particles/shard.png" id="4_3rlp6"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ppw2n"]
-random_pitch = 1.05
+random_pitch = 1.03
 streams_count = 1
 stream_0/stream = ExtResource("2_mj8uy")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_oaw30"]
-random_pitch = 1.1
+random_pitch = 1.04
 streams_count = 1
 stream_0/stream = ExtResource("3_mj8uy")
+
+[sub_resource type="Curve" id="Curve_obik5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.72381, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.22238, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xlnb1"]
+width = 128
+texture_mode = 1
+curve = SubResource("Curve_obik5")
+
+[sub_resource type="Curve" id="Curve_vealc"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ltg2s"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, -0.0840949, 0, 0, Vector2(1, 1.95026), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_d6n2q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_5wnrh"]
+curve_x = SubResource("Curve_vealc")
+curve_y = SubResource("Curve_ltg2s")
+curve_z = SubResource("Curve_d6n2q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uisgv"]
+lifetime_randomness = 0.44
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(4.455, 2.39, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 42.49
+initial_velocity_max = 161.85
+angular_velocity_min = -497.67
+angular_velocity_max = 542.54
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveXYZTexture_5wnrh")
+alpha_curve = SubResource("CurveTexture_xlnb1")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -31,9 +78,11 @@ size_flags_vertical = 3
 [node name="TIMER" parent="CanvasLayer" index="1"]
 script = null
 
-[node name="SCORE" parent="CanvasLayer" index="2" node_paths=PackedStringArray("score_sound")]
+[node name="SCORE" parent="CanvasLayer" index="2" node_paths=PackedStringArray("score_sound", "score_sound2down", "halve_particles")]
 score_smoothing = 5.2
 score_sound = NodePath("score sound")
+score_sound2down = NodePath("score sound2down")
+halve_particles = NodePath("shatter")
 
 [node name="effect" parent="CanvasLayer/SCORE" index="0"]
 shake_intensity = 3.134
@@ -52,6 +101,22 @@ volume_db = -3.0
 pitch_scale = 0.5
 panning_strength = 0.51
 bus = &"sfx"
+
+[node name="shatter" type="GPUParticles2D" parent="CanvasLayer/SCORE" index="3"]
+z_index = 7
+position = Vector2(21, 9)
+emitting = false
+amount = 30
+texture = ExtResource("4_3rlp6")
+lifetime = 2.41
+one_shot = true
+speed_scale = 1.68
+explosiveness = 1.0
+fixed_fps = 120
+trail_lifetime = 0.08
+trail_sections = 3
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_uisgv")
 
 [node name="ParticleLayer" parent="CanvasLayer" index="3"]
 follow_viewport_enabled = true

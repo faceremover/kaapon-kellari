@@ -82,7 +82,7 @@ stream_2/stream = ExtResource("16_m68d2")
 stream_3/stream = ExtResource("17_13h88")
 stream_4/stream = ExtResource("18_2jms0")
 
-[node name="char CONTROL" type="CharacterBody2D" node_paths=PackedStringArray("anim", "camera", "jumpAudio", "landAudio", "runAudio", "wall_bounce_audio") groups=["Player"]]
+[node name="char CONTROL" type="CharacterBody2D" node_paths=PackedStringArray("anim", "jumpAudio", "landAudio", "runAudio", "wall_bounce_audio") groups=["Player"]]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 2
@@ -99,14 +99,13 @@ input_right = "right"
 coyote_time = 0.06
 jump_buffer_time = 0.15
 anim = NodePath("char SPRITE")
-camera = NodePath("")
 jumpAudio = NodePath("char SPRITE/sfx/jump")
 landAudio = NodePath("char SPRITE/sfx/land")
 runAudio = NodePath("char SPRITE/sfx/run")
 land_volume_multiplier = 30.0
 mid_air_friction = 0.7
 wall_bounce_audio = NodePath("char SPRITE/sfx/bounce")
-max_momentum_bonus = 200.0
+max_momentum_bonus = 170.0
 momentum_build_time = 3.5
 camera_smoothing = 0.025
 camera_prediction_h = 0.799

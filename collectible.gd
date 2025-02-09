@@ -20,21 +20,18 @@ func _ready() -> void:
 
 func _on_body_entered(body:Node2D) -> void:
 	if body.is_in_group("Player") && !collected:
-		GameStateSingleton.add_score(score_value)
-		animation_player.play("collect")
 		collected = true
+		animation_player.play("collect")
 		collect_sound.play()
-
-	pass # Replace with function body.
-
-func _process(delta: float) -> void:
-
-	if collect_anim_finished && collected && !collect_sound.playing:
-		queue_free()
+		await get_tree().create_timer(0.4).timeout  # delay added
+		GameStateSingleton.add_score(score_value)
 
 	pass
 
-func _on_animation_player_animation_finished(anim_name:StringName) -> void:
+func _process(_delta: float) -> void:
+	if collect_anim_finished && collected && !collect_sound.playing:
+		queue_free()
+
+func _on_animation_player_animation_finished(_anim_name:StringName) -> void:
 	if collected:
 		collect_anim_finished = true
-	pass # Replace with function body.

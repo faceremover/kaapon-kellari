@@ -117,7 +117,6 @@ func _handle_movement(delta: float, input_direction: float, is_on_floor_now: boo
 	# Combined collision logic
 	if is_on_wall():
 		for i in range(get_slide_collision_count()):
-			var collision = get_slide_collision(i)
 			var can_step = false
 			for j in range(1, step_height + 1):
 				var step_up := Vector2(0, -j)
@@ -132,7 +131,7 @@ func _handle_movement(delta: float, input_direction: float, is_on_floor_now: boo
 				current_speed *= 0.6
 			else:
 				# Bounce or stop
-				if abs(current_speed) >= move_speed - 5:
+				if abs(current_speed) >= move_speed + max_momentum_bonus * 0.1:
 					current_speed *= -0.6
 					desired_speed = current_speed
 					if wall_bounce_audio:
@@ -203,7 +202,7 @@ func _handle_animation(input_direction: float, is_on_floor_now: bool) -> void:
 		new_animation = "run"
 		# Scale animation speed with momentum
 		var total_speed = movement_speed
-		anim.speed_scale = clamp(pow(0.1 + total_speed / (move_speed + max_momentum_bonus), 1.4), 0.0, 1.0)
+		anim.speed_scale = clamp(pow(0.1 + total_speed / (move_speed + max_momentum_bonus), 1.3), 0.0, 1.0)
 	elif !is_landing:
 		new_animation = "idle"
 		anim.speed_scale = 1.0

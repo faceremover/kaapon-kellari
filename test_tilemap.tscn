@@ -44,7 +44,7 @@ texture_filter = 1
 [node name="Area2D" type="Area2D" parent="START AREA" node_paths=PackedStringArray("timer_label", "player", "score", "camera", "start_sound", "alert_sound", "finish_sound", "timeout_sound")]
 position = Vector2(172, 41)
 script = ExtResource("1_ey41o")
-countdown_duration = 45.99
+countdown_duration = 60.99
 timer_label = NodePath("../../Control/CanvasLayer/TIMER")
 player = NodePath("../../character/char CONTROL")
 score = NodePath("../../Control/CanvasLayer/SCORE")
@@ -69,8 +69,9 @@ bus = &"sfx"
 
 [node name="alert" type="AudioStreamPlayer2D" parent="START AREA/Area2D"]
 position = Vector2(-62, -41)
+scale = Vector2(1.01167, 1.0236)
 stream = ExtResource("3_y0plo")
-volume_db = -6.433
+volume_db = 8.989
 pitch_scale = 0.98
 panning_strength = 0.0
 bus = &"sfx"
@@ -133,10 +134,22 @@ bus = &"music"
 
 [node name="character" parent="." instance=ExtResource("11_2gsgu")]
 
+[node name="focus follower" parent="character" index="4"]
+weight = 0.5
+
+[node name="ColorRect" parent="character/focus follower" index="0"]
+scale = Vector2(0.839998, 0.8)
+
 [node name="Control" parent="." instance=ExtResource("12_qndrj")]
 
-[node name="SCORE" parent="Control/CanvasLayer" index="2" node_paths=PackedStringArray("score_sound2down") groups=["ScoreLabel"]]
-score_sound2down = NodePath("score sound2down")
+[node name="SCORE" parent="Control/CanvasLayer" index="2" groups=["ScoreLabel"]]
+
+[node name="score sound" parent="Control/CanvasLayer/SCORE" index="1"]
+panning_strength = 0.43
+
+[node name="score sound2down" parent="Control/CanvasLayer/SCORE" index="2"]
+pitch_scale = 0.75
+panning_strength = 0.28
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false

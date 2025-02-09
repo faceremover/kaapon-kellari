@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b7ni6233rc813"]
+[gd_scene load_steps=12 format=3 uid="uid://b7ni6233rc813"]
 
 [ext_resource type="Texture2D" uid="uid://byilk0qttqlq6" path="res://sprites/games/game_1.png" id="1_rd2yi"]
 [ext_resource type="Script" uid="uid://da1fdxqj5viod" path="res://collectible.gd" id="1_yciwo"]
 [ext_resource type="Script" uid="uid://cnfnqr8epd5c3" path="res://2px-snap.gd" id="2_8orai"]
-[ext_resource type="AudioStream" uid="uid://biueojgeequ6u" path="res://audio/sfx/misc/collect.ogg" id="4_h1l3x"]
+[ext_resource type="AudioStream" uid="uid://nnn4vxesl74" path="res://audio/sfx/misc/pickup.wav" id="4_h1l3x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8orai"]
 size = Vector2(12, 16)
@@ -34,10 +34,33 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_oc26g"]
 resource_name = "collect"
-length = 1.5
 step = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -46,10 +69,10 @@ tracks/0/path = NodePath("spritetarget:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5),
-"transitions": PackedFloat32Array(0.5, 0.5),
+"times": PackedFloat32Array(0, 0.365488),
+"transitions": PackedFloat32Array(0.329878, 0.0603712),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, -8)]
+"values": [Vector2(0, -2.2), Vector2(0, -20.7)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -58,10 +81,34 @@ tracks/1/path = NodePath("Sprite2D:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5),
-"transitions": PackedFloat32Array(2, 1),
+"times": PackedFloat32Array(0.0560895, 0.131913, 1),
+"transitions": PackedFloat32Array(9.84914, 1, 1),
 "update": 0,
-"values": [Color(0.556863, 0.556863, 0.556863, 0.784314), Color(1, 1, 1, 0)]
+"values": [Color(0, 0.6, 0.12, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.0385615, 0.308492, 0.710335, 0.981565),
+"transitions": PackedFloat32Array(1.03527, 1.03527, 5.27803, 0.999999),
+"update": 0,
+"values": [Vector2(0.39, 1.545), Vector2(1.21, 0.825), Vector2(1, 1), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_yciwo"]
@@ -77,9 +124,9 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(-2, -2, -2),
+"transitions": PackedFloat32Array(-1.8025, -1.8025, -3.73213),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
+"values": [Vector2(0, 1), Vector2(0, -3), Vector2(0, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h1l3x"]
@@ -89,6 +136,18 @@ _data = {
 &"idle": SubResource("Animation_yciwo")
 }
 
+[sub_resource type="Gradient" id="Gradient_h1l3x"]
+offsets = PackedFloat32Array(0.0930931, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oc26g"]
+gradient = SubResource("Gradient_h1l3x")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.487179)
+fill_to = Vector2(0.491453, 0.0128205)
+
 [node name="Collectible" type="Area2D" groups=["Collectible"]]
 script = ExtResource("1_yciwo")
 possible_textures = Array[String](["uid://byilk0qttqlq6", "uid://xhy6n05o21jc", "uid://c7dy80mnj606b", "uid://c7fqjj1uxgu18", "uid://ddxp72nov5egw", "uid://cpvp1ir42bnfi", "uid://dkf0o8tb7yu5p", "uid://6rhv87hitadh", "uid://cvxverq5b673f", "uid://0ptj4yp06yay", "uid://dafev1fwjt2i2", "uid://cbemfe435l3vd", "uid://b1rcp8wmreek0", "uid://id26kdyd3k4h"])
@@ -97,6 +156,8 @@ possible_textures = Array[String](["uid://byilk0qttqlq6", "uid://xhy6n05o21jc", 
 texture = ExtResource("1_rd2yi")
 script = ExtResource("2_8orai")
 target_path = NodePath("../spritetarget")
+snap_grid_size = 1
+updates_per_second = 25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_8orai")
@@ -109,10 +170,16 @@ autoplay = "idle"
 
 [node name="spritetarget" type="Marker2D" parent="."]
 
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.25
+texture = SubResource("GradientTexture2D_oc26g")
+texture_scale = 1.3
+height = 11.0
+
 [node name="collect" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_h1l3x")
-volume_db = 6.0
-panning_strength = 2.0
+volume_db = 7.608
+panning_strength = 1.1
 bus = &"sfx"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
