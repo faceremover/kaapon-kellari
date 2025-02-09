@@ -32,6 +32,8 @@ func _ready():
 	monitoring = true
 	monitorable = true
 
+	GameStateSingleton.game_stop_requested.connect(_on_third_party_game_reset)
+
 	var start_collectibles = get_tree().get_nodes_in_group("Collectible")
 	for collectible in start_collectibles:
 		start_collectible_locs.append(collectible.global_position)
@@ -81,6 +83,9 @@ func _process(_delta: float) -> void:
 			_handle_alert(time_remaining, current_second)
 		else:
 			_reset_display()
+
+func _on_third_party_game_reset() -> void:
+	call_deferred("_on_timer_timeout")
 
 func _apply_camera_shake(time_remaining: float) -> void:
 	var elapsed = countdown_duration - time_remaining
@@ -159,6 +164,7 @@ func _handle_body_exit() -> void:
 		start_sound.play()
 	
 	emit_signal("game_state_changed", game_active)
+	GameStateSingleton.game_state_changed.emit(game_active)
 	if score:
 		score.set_game_active(game_active)
 		GameStateSingleton.reset_score()
@@ -174,6 +180,7 @@ func _on_timer_timeout() -> void:
 		timer_label.modulate = Color.WHITE
 		timer_label.position = base_timer_position
 	_reset_camera()
+	GameStateSingleton.game_state_changed.emit(game_active)
 	if score:
 		GameStateSingleton.halve_score()
 	if player:
@@ -202,6 +209,7 @@ func _handle_body_enter() -> void:
 	else:
 		game_active = false
 		emit_signal("game_state_changed", game_active)
+		GameStateSingleton.game_state_changed.emit(game_active)
 		if score:
 			score.set_game_active(game_active)
 		timer.stop()

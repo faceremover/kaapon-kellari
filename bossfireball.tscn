@@ -1,0 +1,195 @@
+[gd_scene load_steps=12 format=3 uid="uid://chp0g677ymtio"]
+
+[ext_resource type="Script" uid="uid://c1vn8d58n2b1g" path="res://bossfireball.gd" id="1_dd6nt"]
+[ext_resource type="Texture2D" uid="uid://dxjm8w2vwhvyj" path="res://sprites/light.png" id="1_gea7e"]
+[ext_resource type="AudioStream" uid="uid://dq6p6otx8kobl" path="res://audio/sfx/boss/boss_projectile_ambient.ogg" id="3_k502t"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dd6nt"]
+blend_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dd6nt"]
+radius = 8.0
+
+[sub_resource type="Animation" id="Animation_k502t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Light:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.05, 0.05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Light:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_dd6nt"]
+resource_name = "spawn"
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Light:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(0.05, 0.05)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Light:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 1, 0), Color(1, 0, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1orjo"]
+_data = {
+&"RESET": SubResource("Animation_k502t"),
+&"spawn": SubResource("Animation_dd6nt")
+}
+
+[sub_resource type="Animation" id="Animation_oul2f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Light:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_1orjo"]
+resource_name = "pulsaterotate"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(0.5, 2, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(0.5, 2, 0.5),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Light:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oul2f"]
+_data = {
+&"RESET": SubResource("Animation_oul2f"),
+&"pulsaterotate": SubResource("Animation_1orjo")
+}
+
+[node name="bossfireball" type="Area2D"]
+script = ExtResource("1_dd6nt")
+
+[node name="Light" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 1, 1)
+z_index = 5
+material = SubResource("CanvasItemMaterial_dd6nt")
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_gea7e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dd6nt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_1orjo")
+}
+autoplay = "spawn"
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_oul2f")
+}
+autoplay = "pulsaterotate"
+speed_scale = 2.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_k502t")
+volume_db = 9.0
+autoplay = true
+max_distance = 500.0
+attenuation = 9.18958
+panning_strength = 2.0
+bus = &"sfx"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

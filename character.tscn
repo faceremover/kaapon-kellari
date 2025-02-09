@@ -34,6 +34,7 @@ script = ExtResource("2_r5wlx")
 target_path = NodePath("../focus follower")
 
 [node name="char CONTROL" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_0qfo5")]
+jump_height = 30.0
 camera = NodePath("../camera stuff/Camera2D")
 
 [node name="camera stuff" type="Node2D" parent="."]
