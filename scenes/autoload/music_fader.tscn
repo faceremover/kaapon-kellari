@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://riqfmggkqpfd"]
+
+[ext_resource type="Script" uid="uid://c5qx8chyukn5e" path="res://music-fader.gd" id="1_xxxxx"]
+[ext_resource type="AudioStream" uid="uid://x801tn1yvpy8" path="res://audio/music/trap.mp3" id="2_o32pv"]
+[ext_resource type="AudioStream" uid="uid://dy6cxu7w8oe35" path="res://audio/music/main.mp3" id="3_i3msu"]
+[ext_resource type="AudioStream" uid="uid://np518uqq1brx" path="res://audio/music/boss.mp3" id="4_0mups"]
+
+[node name="MusicFader" type="Node" node_paths=PackedStringArray("stream_players")]
+script = ExtResource("1_xxxxx")
+stream_players = [NodePath("idle"), NodePath("action"), NodePath("boss")]
+fade_duration = 0.5
+
+[node name="idle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_o32pv")
+volume_db = -6.76
+bus = &"music"
+
+[node name="action" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_i3msu")
+volume_db = -3.12
+bus = &"music"
+
+[node name="boss" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0mups")
+volume_db = -1.04
+bus = &"music"

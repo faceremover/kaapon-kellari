@@ -59,7 +59,7 @@ drag_bottom_margin = 0.1
 editor_draw_limits = true
 editor_draw_drag_margin = true
 
-[node name="PointLight2D2" type="PointLight2D" parent="."]
+[node name="main light" type="PointLight2D" parent="."]
 energy = 0.8
 shadow_color = Color(0, 0, 0, 0.768627)
 shadow_filter_smooth = 6.9

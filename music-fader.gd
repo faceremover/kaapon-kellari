@@ -1,70 +1,50 @@
-extends Node2D
+extends Node
 
-@export var stream_player_1: AudioStreamPlayer2D
-@export var stream_player_2: AudioStreamPlayer2D
-@export var fade_duration: float = 4.0 # seconds
-@export var current_stream: int = 1:
-	set = _set_current_stream
-@export var auto_switch: bool = false
+@export var stream_players: Array[AudioStreamPlayer]
+@export var fade_duration: float = 4.0
 
 var is_fading: bool = false
 var fade_time: float = 0.0
+var fade_from: int = 0
+var fade_to: int = 0
+var current_stream: int = 0
+var base_volumes: Array[float] = []
 
 func _ready():
-	if !stream_player_1 or !stream_player_2:
-		push_error("Music fader: Stream players not properly assigned!")
-		return
-		
-	stream_player_1.play()
-	stream_player_2.play()
-	update_volumes()
+	if !stream_players.is_empty():
+		# Store original volumes for each player
+		for player in stream_players:
+			if player:
+				base_volumes.append(player.volume_db)
+				player.play()
+				player.volume_db = -80.0
+		stream_players[0].volume_db = base_volumes[0]
 
 func _process(delta):
-	if !stream_player_1 or !stream_player_2 or !is_fading:
-		return
-		
-	fade_time += delta
-	if fade_time >= fade_duration:
-		fade_time = fade_duration
-		is_fading = false
-		if auto_switch:
-			fade_to_stream(3 - current_stream)  # Toggle between 1 and 2
+	if !is_fading or stream_players.is_empty(): return
 	
-	var t = fade_time / fade_duration
-	if current_stream == 1:
-		stream_player_1.volume_db = linear_to_db(t)
-		stream_player_2.volume_db = linear_to_db(1 - t)
-	else:
-		stream_player_1.volume_db = linear_to_db(1 - t)
-		stream_player_2.volume_db = linear_to_db(t)
+	fade_time = min(fade_time + delta, fade_duration)
+	_update_volumes()
+	
+	if fade_time >= fade_duration:
+		is_fading = false
 
 func fade_to_stream(stream_number: int):
-	if stream_number == current_stream or is_fading:
-		return
+	if stream_number >= stream_players.size() or stream_number == current_stream: return
+	
+	fade_from = current_stream
+	fade_to = stream_number
 	current_stream = stream_number
 	fade_time = 0.0
 	is_fading = true
 
-func update_volumes():
-	if !stream_player_1 or !stream_player_2:
-		return
-		
-	if current_stream == 1:
-		stream_player_1.volume_db = 0
-		stream_player_2.volume_db = -80
-	else:
-		stream_player_1.volume_db = -80
-		stream_player_2.volume_db = 0
+func _update_volumes():
+	var t = fade_time / fade_duration
+	for i in stream_players.size():
+		var vol = -80.0
+		if i == fade_to:
+			vol = linear_to_db(t) + base_volumes[i]
+		elif i == fade_from:
+			vol = linear_to_db(1.0 - t) + base_volumes[i]
+		stream_players[i].volume_db = vol
 
-func _set_current_stream(value: int):
-	current_stream = value
-	fade_to_stream(value)
-
-func _on_area_2d_game_state_changed(new_state:bool):
-	# Toggle between streams when button is pressed
-	if new_state == true:
-		fade_to_stream(1)
-	else:
-		fade_to_stream(2)
-	#debug
-	print("Current stream: ", current_stream)

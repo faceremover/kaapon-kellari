@@ -19,6 +19,6 @@ func _ready():
 	GameStateSingleton.game_state_changed.connect(_on_game_state_changed)
 	pass
 
-func _on_game_state_changed(active : bool) -> void:
+func _on_game_state_changed(_active : bool) -> void:
 	sprite.show()
 	pass

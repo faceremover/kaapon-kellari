@@ -151,6 +151,7 @@ func _handle_body_exit() -> void:
 	cancel_cool_reset()
 	game_active = true
 	alert_active = false
+	MusicFader.fade_to_stream(1)  # Direct call to fade_to_stream
 	last_second = -1
 	flash_time = 0
 	if start_sound:
@@ -203,6 +204,7 @@ func _handle_body_enter() -> void:
 		game_active = false
 		emit_signal("game_state_changed", game_active)
 		GameStateSingleton.game_state_changed.emit(game_active)
+		MusicFader.fade_to_stream(0)  # Direct call to fade_to_stream
 		if score:
 			score.set_game_active(game_active)
 		timer.stop()

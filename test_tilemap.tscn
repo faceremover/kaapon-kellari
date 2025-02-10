@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://cng30edglssbd"]
+[gd_scene load_steps=45 format=4 uid="uid://cng30edglssbd"]
 
 [ext_resource type="Script" uid="uid://dtgkxh6x02p0b" path="res://start_area.gd" id="1_ey41o"]
 [ext_resource type="AudioStream" uid="uid://b8oqom02uj6f5" path="res://audio/sfx/score/start.wav" id="2_ppw2n"]
@@ -14,15 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://b7ni6233rc813" path="res://collectible.tscn" id="17_2gsgu"]
 [ext_resource type="Texture2D" uid="uid://cqo58sd1pivjq" path="res://sprites/world/gate.png" id="20_00qao"]
 [ext_resource type="Script" path="res://boss_gate.gd" id="20_au53a"]
-[ext_resource type="Script" path="res://boss.gd" id="22_0qg8g"]
+[ext_resource type="Script" uid="uid://d4tthiph6jom" path="res://boss.gd" id="22_0qg8g"]
 [ext_resource type="Texture2D" uid="uid://rjohqxnviuv0" path="res://ui/albedo_kaaportrait.png" id="22_rteuo"]
 [ext_resource type="Texture2D" uid="uid://oym4tdqhiovo" path="res://ui/normal_kaaportrait.png" id="23_5ljao"]
 [ext_resource type="Texture2D" uid="uid://bm58w7slgsfq7" path="res://ui/specular_kaaportrait.png" id="24_0qg8g"]
 [ext_resource type="AudioStream" uid="uid://cxv31wnbv6hgf" path="res://audio/sfx/boss/boss_laugh.ogg" id="26_1iigc"]
-[ext_resource type="Script" path="res://bosstrigger.gd" id="26_8wtaq"]
-[ext_resource type="Script" uid="uid://c5qx8chyukn5e" path="res://music-fader.gd" id="27_1iigc"]
-[ext_resource type="AudioStream" uid="uid://dy6cxu7w8oe35" path="res://audio/music/main.mp3" id="27_o6xfg"]
-[ext_resource type="AudioStream" uid="uid://x801tn1yvpy8" path="res://audio/music/trap.mp3" id="28_euruc"]
+[ext_resource type="Script" uid="uid://d2hdplb6dlueq" path="res://bosstrigger.gd" id="26_8wtaq"]
 [ext_resource type="Texture2D" uid="uid://3k76s0f71kvw" path="res://tilesets/gold_items/kaapos_gold_16.png" id="28_o6xfg"]
 [ext_resource type="AudioStream" uid="uid://nnn4vxesl74" path="res://audio/sfx/misc/pickup.wav" id="29_euruc"]
 [ext_resource type="Texture2D" uid="uid://bgel23c5wdgaj" path="res://sprites/temp_character_16x.png" id="30_te2on"]
@@ -220,46 +217,31 @@ label_settings = SubResource("LabelSettings_vgge0")
 horizontal_alignment = 1
 script = ExtResource("9_vgge0")
 
-[node name="music controller" type="Node2D" parent="." node_paths=PackedStringArray("stream_player_1", "stream_player_2")]
-position = Vector2(0, -1)
-scale = Vector2(1.00163, 1)
-script = ExtResource("27_1iigc")
-stream_player_1 = NodePath("main")
-stream_player_2 = NodePath("trap")
-fade_duration = 0.6
-
-[node name="main" type="AudioStreamPlayer2D" parent="music controller"]
-stream = ExtResource("27_o6xfg")
-volume_db = 3.144
-max_distance = 50000.0
-attenuation = 0.00176025
-max_polyphony = 2
-panning_strength = 0.0
-bus = &"music"
-
-[node name="trap" type="AudioStreamPlayer2D" parent="music controller"]
-stream = ExtResource("28_euruc")
-volume_db = -1.68
-max_distance = 50000.0
-attenuation = 0.00176025
-max_polyphony = 2
-panning_strength = 0.0
-bus = &"music"
-
 [node name="character" parent="." instance=ExtResource("32_0adbw")]
 
-[node name="character CONTROL" parent="character/char CONTROL" index="0" node_paths=PackedStringArray("camera")]
+[node name="character CONTROL" parent="character/char CONTROL" index="0" node_paths=PackedStringArray("camera", "hyper_scale_light")]
 camera = NodePath("../../camera stuff/Camera2D")
-camera_smoothing = 0.52
-camera_prediction_h = 0.655
-camera_prediction_v = 0.789
-max_camera_offset = 210.619
+camera_smoothing = 0.289
+camera_prediction_h = 0.913
+camera_prediction_v = 1.068
+max_camera_offset = 263.196
+smoke_threshold = 0.75
+min_smoke_amount = 40
+max_smoke_amount = 40
+hyper_scale_light = NodePath("../../main light")
+
+[node name="char SPRITE" parent="character/char CONTROL/character CONTROL" index="2"]
+z_index = 2
 
 [node name="Camera2D" parent="character/camera stuff" index="0"]
 limit_right = 1300
+position_smoothing_enabled = false
 
 [node name="focus follower" parent="character" index="4" node_paths=PackedStringArray("target1")]
 target1 = NodePath("../char CONTROL/character CONTROL")
+
+[node name="ColorRect" parent="character/focus follower" index="0"]
+scale = Vector2(0.799997, 0.76)
 
 [node name="Control" parent="." instance=ExtResource("12_qndrj")]
 
@@ -546,6 +528,7 @@ libraries = {
 [node name="Boss" type="Node2D" parent="WorldObjects"]
 position = Vector2(773, 629)
 script = ExtResource("22_0qg8g")
+spit_interval = 1.0
 
 [node name="AlbedoKaaportrait" type="Sprite2D" parent="WorldObjects/Boss"]
 z_index = -2
@@ -668,7 +651,6 @@ script = ExtResource("32_ey41o")
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_0adbw")
 
-[connection signal="game_state_changed" from="START AREA/Area2D" to="music controller" method="_on_area_2d_game_state_changed"]
 [connection signal="animation_finished" from="WorldObjects/Boss/AnimationPlayer" to="WorldObjects/Boss" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="WorldObjects/Boss/Area2D" to="WorldObjects/Boss" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="WorldObjects/bosstrigger" to="WorldObjects/bosstrigger" method="_on_body_entered"]

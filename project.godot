@@ -27,6 +27,7 @@ general/2d_panning_strength=0.8
 [autoload]
 
 GameStateSingleton="*res://GameStateSingleton.gd"
+MusicFader="*res://scenes/autoload/music_fader.tscn"
 
 [compression]
 

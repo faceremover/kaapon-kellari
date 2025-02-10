@@ -43,6 +43,7 @@ func play_voice(voice_res: AudioStream):
 func _on_animation_player_animation_finished(anim_name:StringName) -> void:
 	if anim_name == "rise":
 		boss_active = true
+		MusicFader.fade_to_stream(2)
 		player = get_tree().get_first_node_in_group("Player")
 		target_pos = global_position
 		play_voice(voice_res_laugh)
@@ -94,7 +95,7 @@ func _on_area_2d_body_entered(body:Node2D) -> void:
 		play_voice(voice_res_defeated)
 		GameStateSingleton.add_score(250)
 		boss_defeated = true
-		hide()
+		MusicFader.fade_to_stream(1)
 
 		
 	pass # Replace with function body.

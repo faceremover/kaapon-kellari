@@ -55,6 +55,9 @@ enum ACTION { NONE, IDLE, RUNNING, JUMPING, FALLING, LANDING }
 @export var hyper_explosion_particles: GPUParticles2D
 @export var hyper_ignition_audio: AudioStreamPlayer2D
 @export var hyper_audio: AudioStreamPlayer2D
+# Added hyper_light export for the light in hyper mode
+@export var hyper_light: Light2D
+@export var hyper_scale_light: Light2D  # New light that will scale during hyper mode
 
 var smoothed_velocity := Vector2.ZERO
 var camera_target_pos := Vector2.ZERO 
@@ -77,6 +80,9 @@ var was_hyper_mode := false
 var is_smoking := false
 var was_smoking := false
 
+var hyper_duration := 0.0
+var score_timer := 0.0
+
 func _ready() -> void:
 	if anim:
 		anim.animation_finished.connect(_on_animation_finished)
@@ -85,6 +91,21 @@ func _ready() -> void:
 	move_transform = Transform2D()
 	
 	jump_velocity = sqrt(2.0 * gravity * jump_height)
+	
+	# Disable hyper-related effects at start
+	if smoke_particles:
+		smoke_particles.emitting = false
+	if hyper_particles:
+		hyper_particles.emitting = false
+	if hyper_explosion_particles:
+		hyper_explosion_particles.emitting = false
+	if hyper_audio:
+		hyper_audio.stop()
+	if hyper_light:
+		hyper_light.energy = 0.0
+	if hyper_scale_light:
+		hyper_scale_light.texture_scale = 1.0
+		hyper_scale_light.height = 30.0  # Normal height
 	
 	if hyper_audio:
 		hyper_audio.volume_db = -80
@@ -275,6 +296,18 @@ func _handle_hyper_mode() -> void:
 	is_smoking = current_speed_ratio >= smoke_threshold
 	is_hyper_mode = current_speed_ratio >= 0.95
 	
+	# Track hyper duration and score
+	if is_hyper_mode:
+		hyper_duration += get_physics_process_delta_time()
+		if hyper_duration >= 1.0:  # After 1 second of continuous hyper
+			score_timer += get_physics_process_delta_time()
+			if score_timer >= 0.3:  # Add score every 0.3 seconds
+				GameStateSingleton.add_score(1)
+				score_timer = 0.0
+	else:
+		hyper_duration = 0.0
+		score_timer = 0.0
+	
 	if smoke_particles:
 		if is_smoking:
 			smoke_particles.emitting = true
@@ -300,6 +333,24 @@ func _handle_hyper_mode() -> void:
 		if current_speed_ratio >= smoke_threshold:
 			volume_intensity = inverse_lerp(smoke_threshold, 0.95, current_speed_ratio)
 		hyper_audio.volume_db = linear_to_db(volume_intensity) + 3
+	
+	# Toggle hyper_light on hyper mode state change
+	if hyper_light and is_hyper_mode != was_hyper_mode:
+		if is_hyper_mode:
+			hyper_light.energy = 1.0
+		else:
+			hyper_light.energy = 0.0
+			
+	# Add scaling and height effect for the second light
+	if hyper_scale_light:
+		var scale_target = 1.0
+		var height_target = 30.0  # Normal height
+		if current_speed_ratio >= smoke_threshold:
+			var t = inverse_lerp(smoke_threshold, 0.95, current_speed_ratio)
+			scale_target = lerp(1.0, 1.5, t)
+			height_target = lerp(30.0, 18.0, t)  # Lerp from normal to hyper height
+		hyper_scale_light.texture_scale = lerp(hyper_scale_light.texture_scale, scale_target, 0.1)
+		hyper_scale_light.height = lerp(hyper_scale_light.height, height_target, 0.1)
 	
 	was_smoking = is_smoking
 	was_hyper_mode = is_hyper_mode
