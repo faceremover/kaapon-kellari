@@ -1,0 +1,16 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=6 format=3 uid="uid://yp02yn3t5wac"]
+
+[ext_resource type="AudioStream" uid="uid://dexikbsfc7701" path="res://audio/sfx/player/hyper/ignite-01.wav" id="1_fwfij"]
+[ext_resource type="AudioStream" uid="uid://dgeq8yptdktsi" path="res://audio/sfx/player/hyper/ignite-02.wav" id="2_rdk5t"]
+[ext_resource type="AudioStream" uid="uid://bkvaqn6egerc5" path="res://audio/sfx/player/hyper/ignite-03.wav" id="3_nlqyj"]
+[ext_resource type="AudioStream" uid="uid://f1iqj6toxka6" path="res://audio/sfx/player/hyper/ignite-04.wav" id="4_rbryd"]
+[ext_resource type="AudioStream" uid="uid://cv3qlmsjlnwqx" path="res://audio/sfx/player/hyper/ignite-05.wav" id="5_8l6h3"]
+
+[resource]
+random_pitch = 1.08
+streams_count = 5
+stream_0/stream = ExtResource("1_fwfij")
+stream_1/stream = ExtResource("2_rdk5t")
+stream_2/stream = ExtResource("3_nlqyj")
+stream_3/stream = ExtResource("4_rbryd")
+stream_4/stream = ExtResource("5_8l6h3")

@@ -1,13 +1,97 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3qti6oewvirt"]
+[gd_scene load_steps=46 format=3 uid="uid://b3qti6oewvirt"]
 
 [ext_resource type="Texture2D" uid="uid://qcb3cp4v6m6a" path="res://sprites/dither overlay.png" id="1_8i6g0"]
 [ext_resource type="Script" uid="uid://cnfnqr8epd5c3" path="res://2px-snap.gd" id="2_r5wlx"]
-[ext_resource type="PackedScene" uid="uid://b7825pnoqgvdt" path="res://char_control.tscn" id="3_0qfo5"]
+[ext_resource type="Script" uid="uid://b1vgmq3ktr04m" path="res://platformer_controller.gd" id="3_hvi53"]
 [ext_resource type="Texture2D" uid="uid://dxjm8w2vwhvyj" path="res://sprites/light.png" id="4_hvi53"]
+[ext_resource type="Texture2D" uid="uid://cu2qxgwfgnhvc" path="res://sprites/geek1.png" id="5_rr203"]
+[ext_resource type="Texture2D" uid="uid://13rbtvhmpsvh" path="res://sprites/geek2.png" id="6_8vvwr"]
+[ext_resource type="Texture2D" uid="uid://crt7s01ji5s6m" path="res://sprites/geek3.png" id="7_5said"]
+[ext_resource type="AudioStream" uid="uid://b0dor60tn3who" path="res://audio/sfx/player/step/step-01.wav" id="8_pm3tn"]
+[ext_resource type="AudioStream" uid="uid://dajrg6bkjlsos" path="res://audio/sfx/player/step/step-02.wav" id="9_xvb2f"]
+[ext_resource type="AudioStream" uid="uid://sjety3kdrl1y" path="res://audio/sfx/player/step/step-03.wav" id="10_uswop"]
+[ext_resource type="AudioStream" uid="uid://bta60s0l88708" path="res://audio/sfx/player/step/step-04.wav" id="11_shm3m"]
+[ext_resource type="AudioStream" uid="uid://cy7knbi08aicq" path="res://audio/sfx/player/step/step-05.wav" id="12_go3uk"]
+[ext_resource type="AudioStream" uid="uid://bnnipnjmssmah" path="res://audio/sfx/player/step/step-06.wav" id="13_lyohd"]
+[ext_resource type="AudioStream" uid="uid://ng4vt122c3pt" path="res://audio/sfx/player/step/step-07.wav" id="14_2ia7u"]
+[ext_resource type="AudioStream" uid="uid://dwauyprjt673l" path="res://audio/sfx/player/step/step-08.wav" id="15_0fer6"]
+[ext_resource type="AudioStream" uid="uid://co66c7hsc5tdk" path="res://audio/sfx/player/jump/jump-01.wav" id="16_aeagw"]
+[ext_resource type="AudioStream" uid="uid://et8baypfg2mb" path="res://audio/sfx/player/jump/jump-02.wav" id="17_lphiu"]
+[ext_resource type="AudioStream" uid="uid://s24uo30woosh" path="res://audio/sfx/player/jump/jump-03.wav" id="18_xc4g8"]
+[ext_resource type="AudioStream" uid="uid://jwkgf20rg0fg" path="res://audio/sfx/player/jump/jump-04.wav" id="19_xc8pg"]
+[ext_resource type="AudioStream" uid="uid://b2867u0qf0xxq" path="res://audio/sfx/player/jump/jump-05.wav" id="20_grlnq"]
+[ext_resource type="Script" uid="uid://bfupjui07rpv0" path="res://followsmtsh.gd" id="21_0a77e"]
 [ext_resource type="Script" uid="uid://dyiglsreplvl8" path="res://butter.gd" id="21_3fhje"]
 [ext_resource type="Shader" uid="uid://b7nkal1joh7xo" path="res://palette.gdshader" id="22_0a77e"]
+[ext_resource type="Texture2D" uid="uid://cqw377tcpdqpd" path="res://sprites/particles/shard.png" id="22_hkojd"]
+[ext_resource type="Texture2D" uid="uid://bps84nkt2tg0f" path="res://sprites/particles/smoke.png" id="23_ltcw0"]
+[ext_resource type="AudioStream" uid="uid://dlbjj27r6xk6v" path="res://audio/sfx/player/hyper/hyperburn.wav" id="26_8vvwr"]
+[ext_resource type="AudioStream" uid="uid://yp02yn3t5wac" path="res://audio/sfx/player/hyper/ignire.tres" id="27_8vvwr"]
 
-[sub_resource type="Image" id="Image_0qfo5"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o6xfg"]
+radius = 3.0
+height = 13.5
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kadlq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_rr203")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_8vvwr")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_5said")
+}],
+"loop": false,
+"name": &"land",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.1,
+"texture": ExtResource("6_8vvwr")
+}, {
+"duration": 0.9,
+"texture": ExtResource("5_rr203")
+}],
+"loop": true,
+"name": &"run",
+"speed": 27.0
+}]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o6xfg"]
+random_pitch = 1.06
+streams_count = 8
+stream_0/stream = ExtResource("8_pm3tn")
+stream_1/stream = ExtResource("9_xvb2f")
+stream_2/stream = ExtResource("10_uswop")
+stream_3/stream = ExtResource("11_shm3m")
+stream_4/stream = ExtResource("12_go3uk")
+stream_5/stream = ExtResource("13_lyohd")
+stream_6/stream = ExtResource("14_2ia7u")
+stream_7/stream = ExtResource("15_0fer6")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_euruc"]
+random_pitch = 1.08
+streams_count = 5
+stream_0/stream = ExtResource("16_aeagw")
+stream_1/stream = ExtResource("17_lphiu")
+stream_2/stream = ExtResource("18_xc4g8")
+stream_3/stream = ExtResource("19_xc8pg")
+stream_4/stream = ExtResource("20_grlnq")
+
+[sub_resource type="Image" id="Image_hvi53"]
 data = {
 "data": PackedByteArray(26, 20, 47, 52, 35, 88, 88, 48, 138, 133, 66, 178, 185, 98, 199, 224, 131, 213, 227, 179, 225, 188, 220, 238, 127, 213, 246, 84, 158, 233, 64, 113, 202, 54, 77, 157, 77, 78, 122, 175, 139, 138, 218, 159, 145, 215, 141, 132, 185, 111, 117, 156, 87, 107, 134, 69, 93, 110, 59, 68, 109, 66, 51, 141, 87, 59, 176, 114, 71, 204, 142, 89, 220, 169, 108, 121, 120, 115, 99, 107, 106, 65, 83, 93, 151, 60, 17, 44, 23, 90, 16, 39, 24, 13, 111, 131, 67, 57, 52, 114, 103, 96, 151, 144, 134, 193, 190, 181, 234, 233, 226, 246, 240, 237, 227, 211, 218, 204, 176, 195, 179, 143, 176, 139, 95, 148, 103, 72, 120, 65, 60, 101, 48, 81, 109, 49, 106, 126, 66, 135, 149, 80, 161, 166, 149, 206, 200, 195, 238, 232, 198, 241, 244, 177, 222, 235, 153, 194, 218, 128, 162, 197, 98, 123, 166, 62, 76, 126, 40, 50, 100, 73, 89, 98, 45, 66, 80, 28, 40, 57, 32, 21, 55, 60, 26, 148, 63, 66, 9, 125, 16, 27, 232, 218, 108, 221, 201, 89, 202, 160, 62, 186, 120, 39, 168, 87, 31, 145, 56, 27, 121, 36, 29, 123, 33, 45, 182, 50, 53, 233, 79, 53, 244, 112, 68, 248, 152, 96, 233, 194, 122, 160, 217, 115, 101, 199, 89, 72, 166, 77, 55, 119, 75, 43, 77, 67, 38, 54, 56, 55, 57, 72, 87, 93, 114, 116, 132, 155, 155, 176, 195, 191, 207, 218, 171, 176, 179, 30, 48, 63, 17, 27, 42, 12, 16, 26, 37, 22, 69, 19, 19, 19, 14, 55, 27, 10, 98, 38, 54, 82, 108, 79, 112, 134, 116, 148, 166, 157, 185, 196, 196, 218, 224, 203, 227, 223, 180, 210, 198, 150, 183, 171, 115, 149, 144, 70, 109, 110, 49, 84, 88, 96, 109, 107, 181, 179, 161, 186, 170, 135, 164, 134, 97, 134, 93, 63, 92, 52, 38, 54, 40, 32, 48, 76, 49, 74, 117, 76, 116, 154, 103, 158, 186, 132, 195, 212, 169, 229, 236, 215, 255, 255, 255, 11, 18, 31, 9, 8, 18, 4, 5, 10, 40, 67, 7, 50, 21, 73, 44, 24, 89, 75, 36, 18),
 "format": "RGB8",
@@ -17,11 +101,120 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_w0xv1"]
-image = SubResource("Image_0qfo5")
+image = SubResource("Image_hvi53")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5a5dk"]
 shader = ExtResource("22_0a77e")
 shader_parameter/palette = SubResource("ImageTexture_w0xv1")
+
+[sub_resource type="Curve" id="Curve_q81p8"]
+_data = [Vector2(0.660317, 1), 0.0, 0.24294, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5x23n"]
+width = 50
+texture_mode = 1
+curve = SubResource("Curve_q81p8")
+
+[sub_resource type="Gradient" id="Gradient_4wydl"]
+offsets = PackedFloat32Array(0, 0.622837, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.649265, 0, 1, 0.533943, 0.0281906, 0.0281906, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tihsf"]
+gradient = SubResource("Gradient_4wydl")
+
+[sub_resource type="Gradient" id="Gradient_ebc52"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 0.649265, 0, 1, 0.533943, 0.0281906, 0.0281906, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4wydl"]
+gradient = SubResource("Gradient_ebc52")
+
+[sub_resource type="Curve" id="Curve_y2xdr"]
+_data = [Vector2(0, 1), 0.0, -3.17935, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y2xdr"]
+width = 50
+curve = SubResource("Curve_y2xdr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8vvwr"]
+lifetime_randomness = 0.86
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2.38, 1, 1)
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 0.147
+spread = 180.0
+gravity = Vector3(0, -100, 0)
+scale_min = 0.8
+scale_max = 1.15
+color_ramp = SubResource("GradientTexture1D_4wydl")
+color_initial_ramp = SubResource("GradientTexture1D_tihsf")
+alpha_curve = SubResource("CurveTexture_5x23n")
+emission_curve = SubResource("CurveTexture_y2xdr")
+hue_variation_min = 0.05
+hue_variation_max = 0.05
+turbulence_enabled = true
+turbulence_noise_strength = 0.2
+turbulence_noise_scale = 7.416
+turbulence_noise_speed = Vector3(3, 0, 0)
+turbulence_noise_speed_random = 0.4
+turbulence_influence_min = 0.103
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5x23n"]
+lifetime_randomness = 0.86
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2.38, 1, 1)
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 0.147
+spread = 180.0
+initial_velocity_max = 607.15
+gravity = Vector3(0, -100, 0)
+scale_min = 0.8
+scale_max = 1.15
+color_ramp = SubResource("GradientTexture1D_4wydl")
+color_initial_ramp = SubResource("GradientTexture1D_tihsf")
+alpha_curve = SubResource("CurveTexture_5x23n")
+emission_curve = SubResource("CurveTexture_y2xdr")
+hue_variation_min = 0.05
+hue_variation_max = 0.05
+turbulence_enabled = true
+turbulence_noise_strength = 0.2
+turbulence_noise_scale = 7.416
+turbulence_noise_speed = Vector3(3, 0, 0)
+turbulence_noise_speed_random = 0.4
+turbulence_influence_min = 0.103
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tihsf"]
+lifetime_randomness = 0.36
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2.38, 1, 1)
+angle_min = -7.99999
+angle_max = 8.00001
+inherit_velocity_ratio = 0.1
+gravity = Vector3(0, -30, 0)
+damping_max = 30.879
+scale_min = 0.8
+scale_max = 1.15
+alpha_curve = SubResource("CurveTexture_5x23n")
+turbulence_noise_strength = 0.55
+turbulence_noise_speed = Vector3(3, 50, 0)
+turbulence_noise_speed_random = 0.58
+turbulence_influence_min = 0.103
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
 
 [node name="character" type="Node2D"]
 texture_filter = 1
@@ -33,9 +226,115 @@ texture = ExtResource("1_8i6g0")
 script = ExtResource("2_r5wlx")
 target_path = NodePath("../focus follower")
 
+<<<<<<< HEAD
 [node name="char CONTROL" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("3_0qfo5")]
 jump_height = 30.0
 camera = NodePath("../camera stuff/Camera2D")
+=======
+[node name="character body is here guys" type="Node2D" parent="."]
+
+[node name="character CONTROL" type="CharacterBody2D" parent="character body is here guys" node_paths=PackedStringArray("runAudio", "jumpAudio", "landAudio", "wall_bounce_audio", "anim", "camera", "smoke_particles", "hyper_particles", "hyper_explosion_particles", "hyper_ignition_audio", "hyper_audio") groups=["Player"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 2
+light_mask = 0
+z_index = 1
+floor_stop_on_slope = false
+script = ExtResource("3_hvi53")
+move_speed = 150.0
+acceleration = 9.0
+deceleration = 15.0
+jump_height = 25.0
+input_left = "left"
+input_right = "right"
+mid_air_friction = 0.7
+jump_buffer_time = 0.15
+coyote_time = 0.06
+runAudio = NodePath("char SPRITE/sfx/run")
+jumpAudio = NodePath("char SPRITE/sfx/jump")
+landAudio = NodePath("char SPRITE/sfx/land")
+wall_bounce_audio = NodePath("char SPRITE/sfx/bounce")
+land_volume_multiplier = 30.0
+anim = NodePath("char SPRITE")
+camera = NodePath("../../camera stuff/Camera2D")
+camera_smoothing = 0.334
+camera_prediction_h = 0.748
+camera_prediction_v = 0.881
+max_camera_offset = 264.743
+momentum_build_time = 3.5
+max_momentum_bonus = 170.0
+smoke_particles = NodePath("../../speed effect/platrices/smoke")
+smoke_threshold = 0.775
+min_smoke_ratio = 0.2
+max_smoke_ratio = 1.0
+hyper_particles = NodePath("../../speed effect/platrices/fire_hyper")
+hyper_explosion_particles = NodePath("../../speed effect/platrices/hyper_explosion")
+hyper_ignition_audio = NodePath("../../speed effect/ignition")
+hyper_audio = NodePath("../../speed effect/hear the rumble skrillex rubmle")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="character body is here guys/character CONTROL"]
+auto_translate_mode = 2
+z_index = 4
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_o6xfg")
+debug_color = Color(0.875228, 0.000425283, 0.836156, 0.42)
+
+[node name="PointLight2D" type="PointLight2D" parent="character body is here guys/character CONTROL"]
+energy = 0.2
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_filter_smooth = 2.4
+texture = ExtResource("4_hvi53")
+height = 105.0
+
+[node name="char SPRITE" type="AnimatedSprite2D" parent="character body is here guys/character CONTROL"]
+visibility_layer = 16
+z_index = 4
+z_as_relative = false
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_kadlq")
+animation = &"run"
+frame_progress = 0.6218
+
+[node name="sfx" type="Node2D" parent="character body is here guys/character CONTROL/char SPRITE"]
+
+[node name="run" type="AudioStreamPlayer2D" parent="character body is here guys/character CONTROL/char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_o6xfg")
+volume_db = -7.505
+pitch_scale = 1.47
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"
+
+[node name="land" type="AudioStreamPlayer2D" parent="character body is here guys/character CONTROL/char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_o6xfg")
+volume_db = -6.968
+pitch_scale = 1.01
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"
+
+[node name="jump" type="AudioStreamPlayer2D" parent="character body is here guys/character CONTROL/char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_euruc")
+volume_db = -8.578
+pitch_scale = 1.01
+attenuation = 0.812251
+max_polyphony = 2
+bus = &"sfx"
+
+[node name="bounce" type="AudioStreamPlayer2D" parent="character body is here guys/character CONTROL/char SPRITE/sfx"]
+position = Vector2(4, 0)
+stream = SubResource("AudioStreamRandomizer_o6xfg")
+volume_db = -3.75
+pitch_scale = 0.58
+attenuation = 0.812251
+max_polyphony = 2
+panning_strength = 1.3
+bus = &"sfx"
+>>>>>>> 0ed7a13c6d9164d449e17db6e4fac1c6416f1a63
 
 [node name="camera stuff" type="Node2D" parent="."]
 
@@ -48,7 +347,7 @@ limit_top = -130
 limit_right = 400
 limit_bottom = 905
 limit_smoothed = true
-position_smoothing_enabled = true
+position_smoothing_speed = 15.0
 rotation_smoothing_enabled = true
 rotation_smoothing_speed = 20.0
 drag_horizontal_enabled = true
@@ -73,7 +372,7 @@ updates_per_second = 35
 
 [node name="focus follower" type="Node2D" parent="." node_paths=PackedStringArray("target1")]
 script = ExtResource("21_3fhje")
-target1 = NodePath("../char CONTROL")
+target1 = NodePath("../character body is here guys/character CONTROL")
 weight = 0.45
 
 [node name="ColorRect" type="ColorRect" parent="focus follower"]
@@ -96,3 +395,70 @@ pivot_offset = Vector2(309, 199)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="focus follower"]
 current = true
+
+[node name="speed effect" type="Node2D" parent="."]
+script = ExtResource("21_0a77e")
+target_path = NodePath("../character body is here guys/character CONTROL")
+follow_speed_x = 70.0
+follow_speed_y = 70.0
+
+[node name="platrices" type="Node2D" parent="speed effect"]
+position = Vector2(0, 8)
+
+[node name="fire_hyper" type="GPUParticles2D" parent="speed effect/platrices"]
+z_index = 3
+amount = 50
+texture = ExtResource("22_hkojd")
+lifetime = 0.27
+explosiveness = 0.07
+randomness = 0.6
+fixed_fps = 40
+fract_delta = false
+trail_enabled = true
+trail_lifetime = 0.51
+trail_sections = 4
+trail_section_subdivisions = 2
+process_material = SubResource("ParticleProcessMaterial_8vvwr")
+
+[node name="hyper_explosion" type="GPUParticles2D" parent="speed effect/platrices"]
+z_index = 3
+emitting = false
+amount = 50
+texture = ExtResource("22_hkojd")
+lifetime = 0.13
+one_shot = true
+explosiveness = 1.0
+randomness = 0.6
+fixed_fps = 40
+fract_delta = false
+trail_enabled = true
+trail_lifetime = 0.51
+trail_sections = 4
+trail_section_subdivisions = 2
+process_material = SubResource("ParticleProcessMaterial_5x23n")
+
+[node name="smoke" type="GPUParticles2D" parent="speed effect/platrices"]
+modulate = Color(0.67, 0.67, 0.67, 0.729412)
+z_index = 3
+amount = 40
+texture = ExtResource("23_ltcw0")
+lifetime = 1.01
+speed_scale = 1.34
+explosiveness = 0.06
+randomness = 0.35
+fixed_fps = 45
+fract_delta = false
+process_material = SubResource("ParticleProcessMaterial_tihsf")
+
+[node name="hear the rumble skrillex rubmle" type="AudioStreamPlayer2D" parent="speed effect"]
+stream = ExtResource("26_8vvwr")
+volume_db = 3.0
+pitch_scale = 1.14
+autoplay = true
+
+[node name="ignition" type="AudioStreamPlayer2D" parent="speed effect"]
+stream = ExtResource("27_8vvwr")
+volume_db = 5.361
+pitch_scale = 1.22
+panning_strength = 0.55
+bus = &"sfx"

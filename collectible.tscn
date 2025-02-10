@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://b7ni6233rc813"]
+[gd_scene load_steps=18 format=3 uid="uid://b7ni6233rc813"]
 
 [ext_resource type="Texture2D" uid="uid://byilk0qttqlq6" path="res://sprites/games/game_1.png" id="1_rd2yi"]
 [ext_resource type="Script" uid="uid://da1fdxqj5viod" path="res://collectible.gd" id="1_yciwo"]
 [ext_resource type="Script" uid="uid://cnfnqr8epd5c3" path="res://2px-snap.gd" id="2_8orai"]
 [ext_resource type="AudioStream" uid="uid://nnn4vxesl74" path="res://audio/sfx/misc/pickup.wav" id="4_h1l3x"]
+[ext_resource type="Texture2D" uid="uid://7dryvvhvssik" path="res://sprites/particles/spark.png" id="5_oc26g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8orai"]
 size = Vector2(12, 16)
@@ -105,8 +106,8 @@ tracks/3/path = NodePath("Sprite2D:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.0385615, 0.308492, 0.710335, 0.981565),
-"transitions": PackedFloat32Array(1.03527, 1.03527, 5.27803, 0.999999),
+"times": PackedFloat32Array(0.0385615, 0.258492, 0.470335, 0.981565),
+"transitions": PackedFloat32Array(1.46409, 0.554788, 2.2974, 0.999999),
 "update": 0,
 "values": [Vector2(0.39, 1.545), Vector2(1.21, 0.825), Vector2(1, 1), Vector2(0, 0)]
 }
@@ -137,7 +138,6 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_h1l3x"]
-offsets = PackedFloat32Array(0.552553, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_oc26g"]
@@ -147,6 +147,39 @@ height = 32
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Curve" id="Curve_mr1af"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.031746, 0.535714), 0.0, 0.0, 0, 0, Vector2(0.0412698, 0.933673), 0.0, 0.0, 0, 0, Vector2(0.11746, 0.436224), 0.0, 0.0, 0, 0, Vector2(0.126984, 0.825893), 0.0, 0.0, 0, 0, Vector2(0.215873, 0.328444), 0.0, 0.0, 0, 0, Vector2(0.228571, 0.734694), 0.0, 0.0, 0, 0, Vector2(0.333333, 0.253826), 0.0, 0.0, 0, 0, Vector2(0.349206, 0.618622), 0.0, 0.0, 0, 0, Vector2(0.434921, 0.121174), 0.0, 0.0, 0, 0, Vector2(0.444444, 0.552296), -0.797991, -0.797991, 0, 0, Vector2(0.561905, 0.0797194), 0.0, 0.0, 0, 0, Vector2(0.565079, 0.510842), 0.0, 0.0, 0, 0, Vector2(0.638095, 0), 0.0, 0.0, 0, 0, Vector2(0.647619, 0.320153), 0.0, 0.0, 0, 0, Vector2(0.761905, 0.072561), 0.0, 0.0, 0, 0, Vector2(0.765079, 0.311862), 0.0, 0.0, 0, 0, Vector2(0.879365, 0), 0.0, 0.0, 0, 0, Vector2(0.898413, 0.179209), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 20
+
+[sub_resource type="CurveTexture" id="CurveTexture_wammx"]
+curve = SubResource("Curve_mr1af")
+
+[sub_resource type="Curve" id="Curve_oc26g"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 100), 0.0, 0.0, 0, 0, Vector2(0.0857143, 100), -92.4944, -92.4944, 0, 0, Vector2(0.377778, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mr1af"]
+width = 64
+texture_mode = 1
+curve = SubResource("Curve_oc26g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uv4g3"]
+lifetime_randomness = 0.98
+particle_flag_disable_z = true
+angle_min = -8.19999
+angle_max = 8.20001
+spread = 180.0
+initial_velocity_min = 31.15
+initial_velocity_max = 96.31
+velocity_limit_curve = SubResource("CurveTexture_mr1af")
+gravity = Vector3(0, 0, 0)
+damping_min = 92.067
+damping_max = 92.067
+scale_max = 1.6
+scale_curve = SubResource("CurveTexture_wammx")
+scale_over_velocity_max = 100.15
 
 [node name="Collectible" type="Area2D" groups=["Collectible"]]
 script = ExtResource("1_yciwo")
@@ -182,6 +215,18 @@ volume_db = 10.288
 pitch_scale = 2.0
 panning_strength = 1.1
 bus = &"sfx"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+texture_filter = 2
+texture_repeat = 1
+emitting = false
+amount = 9
+texture = ExtResource("5_oc26g")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.25
+fixed_fps = 50
+process_material = SubResource("ParticleProcessMaterial_uv4g3")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

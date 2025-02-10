@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqw377tcpdqpd"
-path="res://.godot/imported/shard.png-f9c128647e34f9020d5c48e9fc213c4e.ctex"
+uid="uid://bps84nkt2tg0f"
+path="res://.godot/imported/smoke.png-bf8c681237f98f94d7fdac8e34061714.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/particles/shard.png"
-dest_files=["res://.godot/imported/shard.png-f9c128647e34f9020d5c48e9fc213c4e.ctex"]
+source_file="res://sprites/particles/smoke.png"
+dest_files=["res://.godot/imported/smoke.png-bf8c681237f98f94d7fdac8e34061714.ctex"]
 
 [params]
 

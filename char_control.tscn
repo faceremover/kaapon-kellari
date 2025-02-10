@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b7825pnoqgvdt"]
+[gd_scene load_steps=36 format=3 uid="uid://b7825pnoqgvdt"]
 
 [ext_resource type="Script" uid="uid://b1vgmq3ktr04m" path="res://platformer_controller.gd" id="1_dr65y"]
 [ext_resource type="Texture2D" uid="uid://dxjm8w2vwhvyj" path="res://sprites/light.png" id="2_q81p8"]
@@ -18,6 +18,9 @@
 [ext_resource type="AudioStream" uid="uid://s24uo30woosh" path="res://audio/sfx/player/jump/jump-03.wav" id="16_m68d2"]
 [ext_resource type="AudioStream" uid="uid://jwkgf20rg0fg" path="res://audio/sfx/player/jump/jump-04.wav" id="17_13h88"]
 [ext_resource type="AudioStream" uid="uid://b2867u0qf0xxq" path="res://audio/sfx/player/jump/jump-05.wav" id="18_2jms0"]
+[ext_resource type="Script" uid="uid://bfupjui07rpv0" path="res://followsmtsh.gd" id="19_ebc52"]
+[ext_resource type="Texture2D" uid="uid://bps84nkt2tg0f" path="res://sprites/particles/smoke.png" id="19_q81p8"]
+[ext_resource type="Texture2D" uid="uid://cqw377tcpdqpd" path="res://sprites/particles/shard.png" id="20_5x23n"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o6xfg"]
 radius = 3.0
@@ -82,7 +85,90 @@ stream_2/stream = ExtResource("16_m68d2")
 stream_3/stream = ExtResource("17_13h88")
 stream_4/stream = ExtResource("18_2jms0")
 
-[node name="char CONTROL" type="CharacterBody2D" node_paths=PackedStringArray("anim", "jumpAudio", "landAudio", "runAudio", "wall_bounce_audio") groups=["Player"]]
+[sub_resource type="Curve" id="Curve_q81p8"]
+_data = [Vector2(0.660317, 1), 0.0, 0.24294, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5x23n"]
+width = 50
+texture_mode = 1
+curve = SubResource("Curve_q81p8")
+
+[sub_resource type="Gradient" id="Gradient_4wydl"]
+offsets = PackedFloat32Array(0, 0.622837, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.649265, 0, 1, 0.533943, 0.0281906, 0.0281906, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tihsf"]
+gradient = SubResource("Gradient_4wydl")
+
+[sub_resource type="Gradient" id="Gradient_ebc52"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 0.649265, 0, 1, 0.533943, 0.0281906, 0.0281906, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4wydl"]
+gradient = SubResource("Gradient_ebc52")
+
+[sub_resource type="Curve" id="Curve_y2xdr"]
+_data = [Vector2(0, 1), 0.0, -3.17935, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_y2xdr"]
+width = 50
+curve = SubResource("Curve_y2xdr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5x23n"]
+lifetime_randomness = 0.86
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2.38, 1, 1)
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 0.147
+spread = 25.116
+gravity = Vector3(0, -100, 0)
+scale_min = 0.8
+scale_max = 1.15
+color_ramp = SubResource("GradientTexture1D_4wydl")
+color_initial_ramp = SubResource("GradientTexture1D_tihsf")
+alpha_curve = SubResource("CurveTexture_5x23n")
+emission_curve = SubResource("CurveTexture_y2xdr")
+hue_variation_min = 0.05
+hue_variation_max = 0.05
+turbulence_enabled = true
+turbulence_noise_strength = 0.2
+turbulence_noise_scale = 7.416
+turbulence_noise_speed = Vector3(3, 0, 0)
+turbulence_noise_speed_random = 0.4
+turbulence_influence_min = 0.103
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tihsf"]
+lifetime_randomness = 0.36
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2.38, 1, 1)
+angle_min = -7.99999
+angle_max = 8.00001
+inherit_velocity_ratio = 0.1
+gravity = Vector3(0, -10, 0)
+damping_min = 57.224
+damping_max = 94.335
+scale_min = 0.8
+scale_max = 1.15
+alpha_curve = SubResource("CurveTexture_5x23n")
+turbulence_noise_strength = 0.55
+turbulence_noise_speed = Vector3(3, 50, 0)
+turbulence_noise_speed_random = 0.58
+turbulence_influence_min = 0.103
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_min = 1.49012e-06
+turbulence_initial_displacement_max = 1.49012e-06
+
+[node name="character" type="Node2D"]
+
+[node name="character CONTROL" type="CharacterBody2D" parent="." node_paths=PackedStringArray("anim", "jumpAudio", "landAudio", "runAudio", "wall_bounce_audio", "hyper_particles", "smoke_particles") groups=["Player"]]
 process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 2
@@ -105,6 +191,9 @@ runAudio = NodePath("char SPRITE/sfx/run")
 land_volume_multiplier = 30.0
 mid_air_friction = 0.7
 wall_bounce_audio = NodePath("char SPRITE/sfx/bounce")
+hyper_particles = NodePath("../speed effect/fire_hyper")
+smoke_particles = NodePath("../speed effect/smoke")
+smoke_threshold = 0.775
 max_momentum_bonus = 170.0
 momentum_build_time = 3.5
 camera_smoothing = 0.025
@@ -112,14 +201,14 @@ camera_prediction_h = 0.799
 camera_prediction_v = 0.913
 max_camera_offset = 240.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="character CONTROL"]
 auto_translate_mode = 2
 z_index = 4
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_o6xfg")
 debug_color = Color(0.875228, 0.000425283, 0.836156, 0.42)
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="character CONTROL"]
 energy = 0.2
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 1)
@@ -127,7 +216,7 @@ shadow_filter_smooth = 2.4
 texture = ExtResource("2_q81p8")
 height = 105.0
 
-[node name="char SPRITE" type="AnimatedSprite2D" parent="."]
+[node name="char SPRITE" type="AnimatedSprite2D" parent="character CONTROL"]
 visibility_layer = 16
 z_index = 4
 z_as_relative = false
@@ -136,9 +225,9 @@ sprite_frames = SubResource("SpriteFrames_kadlq")
 animation = &"run"
 frame_progress = 0.6218
 
-[node name="sfx" type="Node2D" parent="char SPRITE"]
+[node name="sfx" type="Node2D" parent="character CONTROL/char SPRITE"]
 
-[node name="run" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+[node name="run" type="AudioStreamPlayer2D" parent="character CONTROL/char SPRITE/sfx"]
 position = Vector2(4, 0)
 stream = SubResource("AudioStreamRandomizer_o6xfg")
 volume_db = -7.505
@@ -147,7 +236,7 @@ attenuation = 0.812251
 max_polyphony = 2
 bus = &"sfx"
 
-[node name="land" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+[node name="land" type="AudioStreamPlayer2D" parent="character CONTROL/char SPRITE/sfx"]
 position = Vector2(4, 0)
 stream = SubResource("AudioStreamRandomizer_o6xfg")
 volume_db = -6.968
@@ -156,7 +245,7 @@ attenuation = 0.812251
 max_polyphony = 2
 bus = &"sfx"
 
-[node name="jump" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+[node name="jump" type="AudioStreamPlayer2D" parent="character CONTROL/char SPRITE/sfx"]
 position = Vector2(4, 0)
 stream = SubResource("AudioStreamRandomizer_euruc")
 volume_db = -8.578
@@ -165,11 +254,47 @@ attenuation = 0.812251
 max_polyphony = 2
 bus = &"sfx"
 
-[node name="bounce" type="AudioStreamPlayer2D" parent="char SPRITE/sfx"]
+[node name="bounce" type="AudioStreamPlayer2D" parent="character CONTROL/char SPRITE/sfx"]
 position = Vector2(4, 0)
 stream = SubResource("AudioStreamRandomizer_o6xfg")
-volume_db = -7.503
-pitch_scale = 0.64
+volume_db = -3.75
+pitch_scale = 0.58
 attenuation = 0.812251
 max_polyphony = 2
+panning_strength = 1.3
 bus = &"sfx"
+
+[node name="speed effect" type="Node2D" parent="."]
+position = Vector2(0, 8)
+script = ExtResource("19_ebc52")
+target_path = NodePath("../character CONTROL")
+follow_speed_x = 95.0
+follow_speed_y = 90.0
+
+[node name="fire_hyper" type="GPUParticles2D" parent="speed effect"]
+z_index = 3
+emitting = false
+amount = 50
+texture = ExtResource("20_5x23n")
+lifetime = 0.24
+explosiveness = 0.07
+randomness = 0.6
+fixed_fps = 100
+fract_delta = false
+trail_enabled = true
+trail_lifetime = 0.51
+trail_sections = 4
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_5x23n")
+
+[node name="smoke" type="GPUParticles2D" parent="speed effect"]
+modulate = Color(0.67, 0.67, 0.67, 0.729412)
+z_index = 3
+emitting = false
+amount = 40
+texture = ExtResource("19_q81p8")
+lifetime = 1.01
+explosiveness = 0.04
+randomness = 0.29
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_tihsf")
