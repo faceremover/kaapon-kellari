@@ -24,7 +24,7 @@
 [ext_resource type="AudioStream" uid="uid://nnn4vxesl74" path="res://audio/sfx/misc/pickup.wav" id="29_euruc"]
 [ext_resource type="Texture2D" uid="uid://bgel23c5wdgaj" path="res://sprites/temp_character_16x.png" id="30_te2on"]
 [ext_resource type="Script" uid="uid://33jlgdfsctr3" path="res://headjump_helper_bossactive.gd" id="31_wr7cd"]
-[ext_resource type="PackedScene" uid="uid://b3qti6oewvirt" path="res://character.tscn" id="32_0adbw"]
+[ext_resource type="PackedScene" uid="uid://rf84vgavwpbe" path="res://character.tscn" id="32_0adbw"]
 [ext_resource type="Script" uid="uid://ccprnhjf16a80" path="res://boss_enableheadtrig.gd" id="32_ey41o"]
 [ext_resource type="TileSet" uid="uid://cobpxvqkfx6sh" path="res://tilesets/wood/8plank_godot4.tres" id="37_xumjr"]
 [ext_resource type="Texture2D" uid="uid://cwit4yom6qr8p" path="res://kaapon kellari_albedo.png" id="41_i1alb"]
@@ -155,7 +155,7 @@ texture_filter = 1
 [node name="Area2D" type="Area2D" parent="START AREA" node_paths=PackedStringArray("timer_label", "player", "score", "camera", "start_sound", "alert_sound", "finish_sound", "timeout_sound")]
 position = Vector2(172, 41)
 script = ExtResource("1_ey41o")
-countdown_duration = 121.0
+countdown_duration = 10.0
 timer_label = NodePath("../../Control/CanvasLayer/TIMER")
 player = NodePath("../../character/char CONTROL/character CONTROL")
 score = NodePath("../../Control/CanvasLayer/SCORE")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2jg5oey7ikuk"]
+[gd_scene load_steps=5 format=3 uid="uid://b8tldrmiyqns1"]
 
 [ext_resource type="FontFile" uid="uid://bf7jx22t3omrp" path="res://Jersey10-Regular.ttf" id="1_emc5c"]
 [ext_resource type="Script" uid="uid://ds1cxq5e8e1e5" path="res://tournament_askname_ui.gd" id="1_n8xwp"]

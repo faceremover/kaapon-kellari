@@ -118,6 +118,8 @@ func _handle_alert(time_remaining: float, current_second: int) -> void:
 		timer_label.modulate = Color(1.0, 1.0 - red_intensity, 1.0 - red_intensity)
 		var flash_timer = get_tree().create_timer(0.1)
 		flash_timer.connect("timeout", Callable(self, "_reset_timer_color"))
+		if time_remaining <= 10.0 and !timer.is_stopped():
+			MusicFader.set_global_pitch((time_remaining / 10.0))
 	
 	var shake_intensity = (15.0 - time_remaining) * 0.15
 	shake_offset = Vector2(
@@ -172,10 +174,12 @@ func _on_timer_timeout() -> void:
 	if timeout_sound:
 		timeout_sound.play()
 	alert_active = false
+	MusicFader.set_global_pitch(1.0)
 	if timer_label:
 		timer_label.modulate = Color.WHITE
 		timer_label.position = base_timer_position
 	_reset_camera()
+	_handle_tournament_namesystem()
 	GameStateSingleton.game_state_changed.emit(game_active)
 	if score:
 		GameStateSingleton.halve_score()
@@ -226,13 +230,7 @@ func _on_name_submitted(name: String) -> void:
 
 	pass
 
-func _cool_reset_sequence() -> void:
-	var seconds_remaining = int(timer.time_left)
-	timer.stop()
-	if finish_sound:
-		finish_sound.play()
-	game_active = false
-	emit_signal("game_state_changed", game_active)
+func _handle_tournament_namesystem():
 	if ask_name_ui && is_instance_valid(ask_name_ui):
 		ask_name_ui.queue_free()
 	if OS.has_feature("tournament") || OS.has_feature("editor"):
@@ -240,6 +238,17 @@ func _cool_reset_sequence() -> void:
 		get_tree().current_scene.add_child(ask_name_ui)
 		player.movement_disabled = true
 		ask_name_ui.connect("submit_name", Callable(self, "_on_name_submitted"))
+	pass
+
+func _cool_reset_sequence() -> void:
+	var seconds_remaining = int(timer.time_left)
+	MusicFader.set_global_pitch(1.0)
+	timer.stop()
+	if finish_sound:
+		finish_sound.play()
+	game_active = false
+	emit_signal("game_state_changed", game_active)
+	_handle_tournament_namesystem()
 	MusicFader.fade_to_stream(0)  # Fade to idle music
 	if score:
 		score.set_game_active(true)

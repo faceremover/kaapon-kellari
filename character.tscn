@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3qti6oewvirt"]
+[gd_scene load_steps=10 format=3 uid="uid://rf84vgavwpbe"]
 
 [ext_resource type="Texture2D" uid="uid://qcb3cp4v6m6a" path="res://sprites/dither overlay.png" id="1_8i6g0"]
 [ext_resource type="Script" uid="uid://cnfnqr8epd5c3" path="res://2px-snap.gd" id="2_r5wlx"]
