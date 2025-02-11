@@ -59,6 +59,9 @@ enum ACTION { NONE, IDLE, RUNNING, JUMPING, FALLING, LANDING }
 @export var hyper_light: Light2D
 @export var hyper_scale_light: Light2D  # New light that will scale during hyper mode
 
+@export_category("Misc")
+@export var movement_disabled := false
+
 var smoothed_velocity := Vector2.ZERO
 var camera_target_pos := Vector2.ZERO 
 
@@ -126,6 +129,9 @@ func _physics_process(delta: float) -> void:
 	var is_on_floor_now := is_on_floor()
 	var input_direction := Input.get_axis(input_left, input_right)
 	
+	if movement_disabled:
+		input_direction = 0
+
 	_handle_movement(delta, input_direction, is_on_floor_now)
 	_handle_jump(delta, is_on_floor_now)
 	_handle_step_assist(input_direction, is_on_floor_now)
@@ -195,7 +201,7 @@ func _handle_jump(delta: float, is_on_floor_now: bool) -> void:
 	else:
 		coyote_time_counter -= delta
 		
-	if Input.is_action_just_pressed(input_jump):
+	if Input.is_action_just_pressed(input_jump) && !movement_disabled:
 		jump_buffer_counter = jump_buffer_time
 	
 	if (is_on_floor_now || coyote_time_counter > 0.0) && jump_buffer_counter > 0.0:

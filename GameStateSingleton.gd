@@ -57,3 +57,14 @@ func reset_score() -> void:
 		score_label.reset_score()
 	save_game()
 	pass
+
+func _process(delta: float) -> void:
+
+	
+
+	pass
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_U:
+		OS.shell_open(ProjectSettings.globalize_path("user://"))
+	pass

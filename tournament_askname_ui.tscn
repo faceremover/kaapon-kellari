@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2jg5oey7ikuk"]
+
+[ext_resource type="FontFile" uid="uid://bf7jx22t3omrp" path="res://Jersey10-Regular.ttf" id="1_emc5c"]
+[ext_resource type="Script" uid="uid://ds1cxq5e8e1e5" path="res://tournament_askname_ui.gd" id="1_n8xwp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n8xwp"]
+font = ExtResource("1_emc5c")
+font_size = 19
+
+[sub_resource type="LabelSettings" id="LabelSettings_if72y"]
+font = ExtResource("1_emc5c")
+font_color = Color(1, 0, 0.0977659, 1)
+
+[node name="tournament_asknameUI" type="Node"]
+script = ExtResource("1_n8xwp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -15.5
+offset_right = 66.0
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_bottom = NodePath("../submitBT")
+focus_next = NodePath("../submitBT")
+theme_override_font_sizes/font_size = 8
+placeholder_text = "Insert name..."
+max_length = 32
+caret_blink = true
+
+[node name="asktext" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -45.5
+offset_right = 65.0
+offset_bottom = -23.1667
+grow_horizontal = 2
+grow_vertical = 2
+text = "What is your name?"
+label_settings = SubResource("LabelSettings_n8xwp")
+
+[node name="errortext" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = 29.5
+offset_right = 65.0
+offset_bottom = 51.8333
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_if72y")
+horizontal_alignment = 1
+
+[node name="submitBT" type="Button" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = 8.5
+offset_right = 40.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_top = NodePath("../LineEdit")
+focus_previous = NodePath("../LineEdit")
+theme_override_font_sizes/font_size = 8
+text = "Submit"
+
+[connection signal="text_submitted" from="CanvasLayer/Control/LineEdit" to="." method="_on_submit_bt_pressed" unbinds=1]
+[connection signal="pressed" from="CanvasLayer/Control/submitBT" to="." method="_on_submit_bt_pressed"]

@@ -26,6 +26,8 @@ var start_collectible_locs: Array = []
 var player_base_volume: float = 0.0
 
 var collectible_ref := preload("res://collectible.tscn")
+var tournament_askname_ui_scn := preload("res://tournament_askname_ui.tscn")
+var ask_name_ui
 
 func _ready():
 	# Ensure monitoring is enabled before setting up
@@ -217,6 +219,13 @@ func _spawn_collectibles() -> void:
 		collectible.global_position = collectible_pos
 		get_tree().current_scene.add_child(collectible)
 
+func _on_name_submitted(name: String) -> void:
+
+	player.movement_disabled = false
+	ask_name_ui.queue_free()
+
+	pass
+
 func _cool_reset_sequence() -> void:
 	var seconds_remaining = int(timer.time_left)
 	timer.stop()
@@ -224,6 +233,14 @@ func _cool_reset_sequence() -> void:
 		finish_sound.play()
 	game_active = false
 	emit_signal("game_state_changed", game_active)
+	if ask_name_ui && is_instance_valid(ask_name_ui):
+		ask_name_ui.queue_free()
+	if OS.has_feature("tournament") || OS.has_feature("editor"):
+		ask_name_ui = tournament_askname_ui_scn.instantiate()
+		get_tree().current_scene.add_child(ask_name_ui)
+		player.movement_disabled = true
+		ask_name_ui.connect("submit_name", Callable(self, "_on_name_submitted"))
+	MusicFader.fade_to_stream(0)  # Fade to idle music
 	if score:
 		score.set_game_active(true)
 	await async_cool_reset(seconds_remaining)
