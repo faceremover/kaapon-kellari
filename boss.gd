@@ -47,7 +47,7 @@ func _on_animation_player_animation_finished(anim_name:StringName) -> void:
 		player = get_tree().get_first_node_in_group("Player")
 		target_pos = global_position
 		play_voice(voice_res_laugh)
-	pass # Replace with function body.
+	pass
 
 func _process(delta: float) -> void:
 	if !boss_active || !player:
@@ -96,6 +96,4 @@ func _on_area_2d_body_entered(body:Node2D) -> void:
 		GameStateSingleton.add_score(250)
 		boss_defeated = true
 		MusicFader.fade_to_stream(1)
-
-		
-	pass # Replace with function body.
+	pass

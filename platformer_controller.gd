@@ -305,9 +305,11 @@ func _handle_hyper_mode() -> void:
 	# Track hyper duration and score
 	if is_hyper_mode:
 		hyper_duration += get_physics_process_delta_time()
-		if hyper_duration >= 1.0:  # After 1 second of continuous hyper
+		if hyper_duration >= 0.2:  # After enough continuous hyper
 			score_timer += get_physics_process_delta_time()
-			if score_timer >= 0.3:  # Add score every 0.3 seconds
+			# Gradually decrease the interval for adding score, minimum interval of 0.08s
+			var score_interval = max(0.3 - (hyper_duration - 0.2) * 0.07, 0.08)
+			if score_timer >= score_interval:
 				GameStateSingleton.add_score(1)
 				score_timer = 0.0
 	else:

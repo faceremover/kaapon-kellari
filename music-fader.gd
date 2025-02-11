@@ -11,6 +11,7 @@ var current_stream: int = 0
 var base_volumes: Array[float] = []
 var global_pitch: float = 1.0
 var global_pitch_target := 1.0
+var global_pitch_duration: float = 1.0
 
 func _ready():
 	if !stream_players.is_empty():
@@ -27,7 +28,7 @@ func _process(delta):
 		if player:
 			player.pitch_scale = global_pitch
 
-	global_pitch = lerp(global_pitch, global_pitch_target, delta * 1.0)
+	global_pitch = lerp(global_pitch, global_pitch_target, delta / global_pitch_duration)
 
 	if !is_fading or stream_players.is_empty(): return
 	
@@ -37,10 +38,9 @@ func _process(delta):
 	if fade_time >= fade_duration:
 		is_fading = false
 
-func set_global_pitch(pitch : float, instant : bool = false):
-	global_pitch_target = pitch
-	if instant:
-		global_pitch = pitch
+func set_global_pitch(target_pitch: float, fade_time: float):
+	global_pitch_target = target_pitch
+	global_pitch_duration = fade_time
 
 func fade_to_stream(stream_number: int):
 	if stream_number >= stream_players.size() or stream_number == current_stream: return
@@ -60,4 +60,3 @@ func _update_volumes():
 		elif i == fade_from:
 			vol = linear_to_db(1.0 - t) + base_volumes[i]
 		stream_players[i].volume_db = vol
-

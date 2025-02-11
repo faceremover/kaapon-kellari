@@ -118,8 +118,10 @@ func _handle_alert(time_remaining: float, current_second: int) -> void:
 		timer_label.modulate = Color(1.0, 1.0 - red_intensity, 1.0 - red_intensity)
 		var flash_timer = get_tree().create_timer(0.1)
 		flash_timer.connect("timeout", Callable(self, "_reset_timer_color"))
-		if time_remaining <= 10.0 and !timer.is_stopped():
-			MusicFader.set_global_pitch((time_remaining / 10.0))
+		if time_remaining <= 20.0 and !timer.is_stopped():
+			var t = 1.0 - (time_remaining / 20.0)  # normalize time from 0 to 1
+			var smoothed = t * t * (3 - 2 * t)  # smoothstep curve
+			MusicFader.set_global_pitch(1.0 + smoothed * 0.3, 1.0)
 	
 	var shake_intensity = (15.0 - time_remaining) * 0.15
 	shake_offset = Vector2(
@@ -174,7 +176,7 @@ func _on_timer_timeout() -> void:
 	if timeout_sound:
 		timeout_sound.play()
 	alert_active = false
-	MusicFader.set_global_pitch(1.0)
+	MusicFader.set_global_pitch(1.0, 0.5)
 	if timer_label:
 		timer_label.modulate = Color.WHITE
 		timer_label.position = base_timer_position
@@ -242,7 +244,7 @@ func _handle_tournament_namesystem():
 
 func _cool_reset_sequence() -> void:
 	var seconds_remaining = int(timer.time_left)
-	MusicFader.set_global_pitch(1.0)
+	MusicFader.set_global_pitch(1.0, 0.5)
 	timer.stop()
 	if finish_sound:
 		finish_sound.play()
