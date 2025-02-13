@@ -10,7 +10,6 @@
 [ext_resource type="AudioStream" uid="uid://cany0a4i1xdr8" path="res://audio/sfx/score/timeout.wav" id="5_xumjr"]
 [ext_resource type="FontFile" uid="uid://bf7jx22t3omrp" path="res://Jersey10-Regular.ttf" id="8_lcvlc"]
 [ext_resource type="Script" uid="uid://dpeu8l2lsmyus" path="res://bestscore_label.gd" id="9_vgge0"]
-[ext_resource type="VideoStream" path="res://videos/kellari_enter.ogv" id="10_te2on"]
 [ext_resource type="PackedScene" uid="uid://c38akdngn1pcu" path="res://game_ui.tscn" id="12_qndrj"]
 [ext_resource type="PackedScene" uid="uid://b7ni6233rc813" path="res://collectible.tscn" id="17_2gsgu"]
 [ext_resource type="Texture2D" uid="uid://cqo58sd1pivjq" path="res://sprites/world/gate.png" id="20_00qao"]
@@ -24,8 +23,9 @@
 [ext_resource type="Texture2D" uid="uid://3k76s0f71kvw" path="res://tilesets/gold_items/kaapos_gold_16.png" id="28_o6xfg"]
 [ext_resource type="AudioStream" uid="uid://nnn4vxesl74" path="res://audio/sfx/misc/pickup.wav" id="29_euruc"]
 [ext_resource type="Texture2D" uid="uid://bgel23c5wdgaj" path="res://sprites/temp_character_16x.png" id="30_te2on"]
+[ext_resource type="Texture2D" uid="uid://bruu3an7ilp8o" path="res://videos/kellari_door.png" id="30_wr7cd"]
 [ext_resource type="Script" path="res://headjump_helper_bossactive.gd" id="31_wr7cd"]
-[ext_resource type="PackedScene" uid="uid://rf84vgavwpbe" path="res://character.tscn" id="32_0adbw"]
+[ext_resource type="PackedScene" uid="uid://b3qti6oewvirt" path="res://character.tscn" id="32_0adbw"]
 [ext_resource type="Script" path="res://boss_enableheadtrig.gd" id="32_ey41o"]
 [ext_resource type="TileSet" uid="uid://cobpxvqkfx6sh" path="res://tilesets/wood/8plank_godot4.tres" id="37_xumjr"]
 [ext_resource type="Texture2D" uid="uid://cwit4yom6qr8p" path="res://kaapon kellari_albedo.png" id="41_i1alb"]
@@ -156,7 +156,7 @@ texture_filter = 1
 [node name="Area2D" type="Area2D" parent="START AREA" node_paths=PackedStringArray("timer_label", "player", "score", "camera", "start_sound", "alert_sound", "finish_sound", "timeout_sound")]
 position = Vector2(172, 41)
 script = ExtResource("1_ey41o")
-countdown_duration = 26.0
+countdown_duration = 121.0
 timer_label = NodePath("../../Control/CanvasLayer/TIMER")
 player = NodePath("../../character/char CONTROL/character CONTROL")
 score = NodePath("../../Control/CanvasLayer/SCORE")
@@ -217,16 +217,6 @@ text = "Best Score: 0"
 label_settings = SubResource("LabelSettings_vgge0")
 horizontal_alignment = 1
 script = ExtResource("9_vgge0")
-
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="START AREA"]
-offset_left = -135.0
-offset_top = 123.0
-offset_right = 393.0
-offset_bottom = 475.0
-scale = Vector2(0.5, 0.5)
-stream = ExtResource("10_te2on")
-autoplay = true
-loop = true
 
 [node name="character" parent="." instance=ExtResource("32_0adbw")]
 
@@ -661,6 +651,11 @@ script = ExtResource("32_ey41o")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldObjects/boss_enableheadtrig"]
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_0adbw")
+
+[node name="KellariDoor" type="Sprite2D" parent="."]
+position = Vector2(-26, 734)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("30_wr7cd")
 
 [connection signal="animation_finished" from="WorldObjects/Boss/AnimationPlayer" to="WorldObjects/Boss" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="WorldObjects/Boss/Area2D" to="WorldObjects/Boss" method="_on_area_2d_body_entered"]

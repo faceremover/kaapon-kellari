@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://rf84vgavwpbe"]
+[gd_scene load_steps=10 format=3 uid="uid://b3qti6oewvirt"]
 
 [ext_resource type="Texture2D" uid="uid://qcb3cp4v6m6a" path="res://sprites/dither overlay.png" id="1_8i6g0"]
 [ext_resource type="Script" uid="uid://cnfnqr8epd5c3" path="res://2px-snap.gd" id="2_r5wlx"]
@@ -23,7 +23,7 @@ image = SubResource("Image_0qfo5")
 shader = ExtResource("22_0a77e")
 shader_parameter/palette = SubResource("ImageTexture_w0xv1")
 
-[node name="character" type="Node2D"]
+[node name="character2" type="Node2D"]
 texture_filter = 1
 
 [node name="dither overlay" type="Sprite2D" parent="."]
