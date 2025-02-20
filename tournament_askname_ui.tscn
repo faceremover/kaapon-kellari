@@ -2,14 +2,11 @@
 
 [ext_resource type="FontFile" uid="uid://bf7jx22t3omrp" path="res://Jersey10-Regular.ttf" id="1_emc5c"]
 [ext_resource type="Script" uid="uid://ds1cxq5e8e1e5" path="res://tournament_askname_ui.gd" id="1_n8xwp"]
+[ext_resource type="Theme" uid="uid://diy3aemnqtaax" path="res://default_theme.tres" id="3_if72y"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_n8xwp"]
 font = ExtResource("1_emc5c")
 font_size = 19
-
-[sub_resource type="LabelSettings" id="LabelSettings_if72y"]
-font = ExtResource("1_emc5c")
-font_color = Color(1, 0, 0.0977659, 1)
 
 [node name="tournament_asknameUI" type="Node"]
 script = ExtResource("1_n8xwp")
@@ -59,23 +56,21 @@ offset_right = 65.0
 offset_bottom = -23.1667
 grow_horizontal = 2
 grow_vertical = 2
-text = "What is your name?"
+text = "What is your first and last name?"
 label_settings = SubResource("LabelSettings_n8xwp")
 
 [node name="errortext" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = -1
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -65.0
 offset_top = 29.5
-offset_right = 65.0
-offset_bottom = 51.8333
+offset_bottom = 51.5
 grow_horizontal = 2
 grow_vertical = 2
-label_settings = SubResource("LabelSettings_if72y")
+theme = ExtResource("3_if72y")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 horizontal_alignment = 1
 
 [node name="submitBT" type="Button" parent="CanvasLayer/Control"]

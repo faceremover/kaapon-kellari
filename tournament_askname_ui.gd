@@ -29,7 +29,16 @@ func _on_submit_bt_pressed() -> void:
 			csvFile = FileAccess.open("user://tournament_data.csv", FileAccess.WRITE)
 		if !does_exist:
 			csvFile.store_csv_line(["Name", "Score"])
-		csvFile.seek_end()
+		var lineIndex = 0
+		while csvFile.get_position() < csvFile.get_length():
+			var line = csvFile.get_csv_line()
+			csvFile.seek(lineIndex)
+			lineIndex += 1
+			if line[0].strip_edges() == lineedit.text.strip_edges():
+				errorText.text = "This person already exists, please use a different name."
+				submitBTN.disabled = false
+				csvFile.close()
+				return
 		csvFile.store_csv_line([lineedit.text, str(GameStateSingleton.score)])
 		csvFile.close()
 		lineedit.text = ""
