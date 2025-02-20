@@ -16,8 +16,8 @@ run/enable_alt_space_menu=true
 config/use_custom_user_dir=true
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.0855, 0.086575, 0.15, 1)
-boot_splash/image="uid://2xgr3ve4380j"
 boot_splash/use_filter=false
+boot_splash/image="uid://2xgr3ve4380j"
 config/icon="uid://2xgr3ve4380j"
 
 [audio]

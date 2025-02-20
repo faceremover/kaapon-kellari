@@ -70,7 +70,8 @@ func _ready():
 	if alert_sound:
 		player_base_volume = alert_sound.volume_db
 
-	get_tree().paused = true
+	# You dumb dumb this is reason why game no work
+	#get_tree().paused = true
 
 func _process(_delta: float) -> void:
 	if timer and not timer.is_stopped() and timer_label:
