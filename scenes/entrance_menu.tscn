@@ -1,44 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjkgxwa0wr8lg"]
+[gd_scene load_steps=5 format=3 uid="uid://cjkgxwa0wr8lg"]
 
 [ext_resource type="Texture2D" uid="uid://bruu3an7ilp8o" path="res://videos/kellari_door.png" id="1"]
 [ext_resource type="VideoStream" uid="uid://d2hujdx1g8xhr" path="res://videos/kellari_enter.ogv" id="2"]
 [ext_resource type="VideoStream" uid="uid://co75rgdpnffvw" path="res://videos/kellari_exit.ogv" id="3"]
 [ext_resource type="Script" uid="uid://froclvviglf6" path="res://entrance_transition.gd" id="4"]
 
-
 [node name="EntranceMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("4")
 
 [node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
 texture = ExtResource("1")
 stretch_mode = 2
 
-[node name="EnterVideo" type="VideoPlayer" parent="."]
+[node name="EnterVideo" type="VideoStreamPlayer" parent="."]
+visible = false
+layout_mode = 0
 stream = ExtResource("2")
-autoplay = false
-visible = false
 
-[node name="ExitVideo" type="VideoPlayer" parent="."]
-stream = ExtResource("3")
-autoplay = false
+[node name="ExitVideo" type="VideoStreamPlayer" parent="."]
 visible = false
+layout_mode = 0
+stream = ExtResource("3")
 
 [node name="StartButton" type="Button" parent="."]
-text = "Start Game"
-anchors_preset = 4
+layout_mode = 0
 anchor_left = 0.4
 anchor_top = 0.6
 anchor_right = 0.6
 anchor_bottom = 0.7
 grow_horizontal = 2
 grow_vertical = 2
+text = "Start Game"
 
 [node name="ExitButton" type="Button" parent="."]
-text = "Exit Game"
-anchors_preset = 4
+layout_mode = 0
 anchor_left = 0.4
 anchor_top = 0.75
 anchor_right = 0.6
 anchor_bottom = 0.85
 grow_horizontal = 2
 grow_vertical = 2
+text = "Exit Game"
