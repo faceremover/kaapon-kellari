@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://lh32rh3sfjgs"]
+
+[ext_resource type="Texture2D" uid="uid://i638ywaeqjm4" path="res://decoration/furniture/crate.png" id="1_pecux"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fx865"]
+polygon = PackedVector2Array(-12, -12, 12, -12, 12, 12, -12, 12)
+
+[node name="Crate" type="Node2D"]
+
+[node name="Crate" type="Sprite2D" parent="."]
+texture = ExtResource("1_pecux")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Crate"]
+occluder = SubResource("OccluderPolygon2D_fx865")

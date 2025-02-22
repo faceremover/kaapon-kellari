@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://buwu7wish4aem"]
+
+[ext_resource type="Texture2D" uid="uid://xb6d41m3kswo" path="res://decoration/lamps/lamp_flat.png" id="1_scb5h"]
+[ext_resource type="Texture2D" uid="uid://b1yej6s1c4pb" path="res://decoration/lamps/top_spotlight.png" id="2_37xim"]
+
+[node name="CeilingLamp" type="Node2D"]
+
+[node name="LampFlat" type="Sprite2D" parent="."]
+position = Vector2(0, 6)
+texture = ExtResource("1_scb5h")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, 1)
+color = Color(1, 1, 0.784314, 1)
+energy = 1.1
+shadow_enabled = true
+texture = ExtResource("2_37xim")
+offset = Vector2(0, 50)

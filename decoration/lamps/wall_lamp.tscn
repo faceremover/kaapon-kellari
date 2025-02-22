@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvh1822ps20w8"]
+
+[ext_resource type="Texture2D" uid="uid://njw8gb4td0fn" path="res://decoration/lamps/lamp_wall.png" id="1_f003g"]
+[ext_resource type="Texture2D" uid="uid://dxjm8w2vwhvyj" path="res://sprites/light.png" id="2_0rtcu"]
+
+[node name="WallLamp" type="Node2D"]
+
+[node name="LampWall" type="Sprite2D" parent="."]
+texture = ExtResource("1_f003g")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 1, 0.811765, 1)
+energy = 0.6
+shadow_enabled = true
+shadow_filter = 1
+shadow_filter_smooth = 4.4
+texture = ExtResource("2_0rtcu")
+texture_scale = 0.5
