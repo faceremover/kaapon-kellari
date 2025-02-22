@@ -20,9 +20,35 @@ func _input(event: InputEvent) -> void:
 	pass
 
 func _on_submit_bt_pressed() -> void:
+	var entered_name = lineedit.text.strip_edges().to_lower()
+	var easter_eggs = {
+		"": "PLEASE insert name!",
+		"name": "Hilarious",
+		"name...": "...",
+		"kellari": "No it isn't",
+		"kaapon kellari": "That's me actually",
+		"ap": "bo what",
+		"insert name": "No u",
+		"insert name...": "No u",
+		"submit": "Your parents must hate you",
+		"error": "Here's your error",
+		"pekka juice": "WHAT",
+		"pekkamehu": "WHAT",
+		"pekka mehu": "WHAT",
+		"uwu": "owo",
+		"owo": "uwu",
+		"owu": "uwo",
+		"uwo": "owu",
+		"mauppi": "hello mappi 1 guy",
+		"mauppi1": "hello mappi 1 guy",
+		"skaa": "hello shaakejo guy",
+		"skaahejo": "hello shaakejo guy",
+		"aapo skyttä": "hello shaakejo guy",
+		"geek": "no, i mean like, you playing the game"
+	}
 	
-	if lineedit.text.strip_edges() == "" or lineedit.text == "Insert name...":
-		errorText.text = "Please enter a name."
+	if easter_eggs.has(entered_name):
+		errorText.text = easter_eggs[entered_name]
 	else:
 		submitBTN.disabled = true
 		var does_exist = false
@@ -38,12 +64,12 @@ func _on_submit_bt_pressed() -> void:
 			var line = csvFile.get_csv_line()
 			csvFile.seek(lineIndex)
 			lineIndex += 1
-			if line[0].strip_edges() == lineedit.text.strip_edges():
-				errorText.text = "This person already exists, please use a different name."
+			if line[0].strip_edges().to_lower() == entered_name:
+				errorText.text = "Enter some other name!"
 				submitBTN.disabled = false
 				csvFile.close()
 				return
-		csvFile.store_csv_line([lineedit.text, str(GameStateSingleton.score)])
+		csvFile.store_csv_line([entered_name, str(GameStateSingleton.score)])
 		csvFile.close()
 		lineedit.text = ""
 		emit_signal("submit_name", lineedit.text)
