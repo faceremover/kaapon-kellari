@@ -13,7 +13,11 @@ func _ready() -> void:
 
 	pass
 
-
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.is_action_pressed("ui_cancel"):
+			emit_signal("submit_name", "")
+	pass
 
 func _on_submit_bt_pressed() -> void:
 	

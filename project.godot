@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Kaapon Kellari"
-run/main_scene="uid://cng30edglssbd"
+run/main_scene="uid://cjkgxwa0wr8lg"
 run/enable_alt_space_menu=true
 config/use_custom_user_dir=true
 config/features=PackedStringArray("4.4", "GL Compatibility")

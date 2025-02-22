@@ -10,14 +10,26 @@ var save = ConfigFile.new()
 
 func _ready() -> void:
 
+
 	if get_tree().get_first_node_in_group("ScoreLabel"):
 		score_label = get_tree().get_first_node_in_group("ScoreLabel")
-
+	
 	save.load_encrypted_pass("user://savegame.save", "peenar")
 
 	score = save.get_value("scores", "current-score", 0)
 	highscore = save.get_value("scores", "high-score", 0)
 
+	get_tree().tree_changed.connect(_on_scene_change)
+
+	pass
+
+func _on_scene_change() -> void:
+	if !get_tree():
+		return
+	if !get_tree().current_scene:
+		return
+	if get_tree().get_first_node_in_group("ScoreLabel"):
+		score_label = get_tree().get_first_node_in_group("ScoreLabel")
 	pass
 
 func save_game() -> void:
