@@ -659,7 +659,13 @@ position = Vector2(267, 220)
 texture = SubResource("CanvasTexture_ekdmj")
 
 [node name="Crate" parent="." instance=ExtResource("35_y0plo")]
+texture_filter = 4
 position = Vector2(188, 202)
+
+[node name="Crate2" parent="." instance=ExtResource("35_y0plo")]
+texture_filter = 4
+position = Vector2(208, 206)
+scale = Vector2(0.682901, 0.667621)
 
 [connection signal="animation_finished" from="WorldObjects/Boss/AnimationPlayer" to="WorldObjects/Boss" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="WorldObjects/Boss/Area2D" to="WorldObjects/Boss" method="_on_area_2d_body_entered"]
