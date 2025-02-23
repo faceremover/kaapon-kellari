@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bu25anrtv0iav"]
+
+[ext_resource type="Texture2D" uid="uid://4wjpkmgu6kac" path="res://decoration/furniture/cabinets_1.png" id="1_ahr3m"]
+[ext_resource type="Texture2D" uid="uid://bsuxd2gcqldwx" path="res://decoration/furniture/cabinets_1_normal.png" id="2_6u4u1"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ww0vg"]
+diffuse_texture = ExtResource("1_ahr3m")
+normal_texture = ExtResource("2_6u4u1")
+specular_color = Color(0.481789, 0.481789, 0.481789, 1)
+specular_shininess = 0.43
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6u4u1"]
+polygon = PackedVector2Array(-14, -3, 13, -3, 13, 11, -14, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ww0vg"]
+size = Vector2(27, 14)
+
+[node name="Cabinets1" type="Sprite2D"]
+z_as_relative = false
+texture = SubResource("CanvasTexture_ww0vg")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_6u4u1")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, 4)
+shape = SubResource("RectangleShape2D_ww0vg")

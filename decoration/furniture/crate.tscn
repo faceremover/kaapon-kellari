@@ -6,7 +6,8 @@
 [sub_resource type="CanvasTexture" id="CanvasTexture_ae25i"]
 diffuse_texture = ExtResource("1_pecux")
 normal_texture = ExtResource("2_fx865")
-specular_shininess = 0.3
+specular_color = Color(0.666569, 0.666569, 0.666569, 1)
+specular_shininess = 0.41
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fx865"]
 polygon = PackedVector2Array(-12, -12, 12, -12, 12, 12, -12, 12)
@@ -14,15 +15,14 @@ polygon = PackedVector2Array(-12, -12, 12, -12, 12, 12, -12, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fx865"]
 size = Vector2(24, 24)
 
-[node name="Crate" type="Node2D"]
-
-[node name="Crate" type="Sprite2D" parent="."]
+[node name="Crate" type="Sprite2D"]
+z_as_relative = false
 texture = SubResource("CanvasTexture_ae25i")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Crate"]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_fx865")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Crate"]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Crate/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_fx865")
